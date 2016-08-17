@@ -1,0 +1,107 @@
+*** Settings ***
+Library           Selenium2Library    #Suite Setup    Test environment initialization    #Suite Teardown    Clean up test environment
+Library           os
+Library           ExcelLibrary
+Library           String
+Resource          Resource.txt
+
+*** Variables ***
+${SiteUrl}        https://salespro-sams--SCMEPDEV.cs4.my.salesforce.com
+${Username}       lanny.zhu@pwc.com.samsdev.com
+${Pswd}           abcd1234
+
+*** Test Cases ***
+PC New
+    Get Data From Excel
+    ${Row_count}=    Get Row Count    Sheet1
+    : FOR    ${var}    IN RANGE    ${Row_count}
+    \    Continue For Loop If    ${var}==0 # skip title row
+    \    ${fields_l}=    Read Cell Data By Coordinates    Sheet1    6    ${var}
+    \    ${menu_l}=    Read Cell Data By Coordinates    Sheet1    5    ${var}
+    \    ${length}=    Get Length    ${fields_l}
+    \    Continue For Loop If    ${length}==0 # skip if tabs validation data is empty
+    \    ${SiteUrl_l}=    Read Cell Data By Coordinates    Sheet1    1    ${var}    #Get Site URL
+    \    ${Username_l}=    Read Cell Data By Coordinates    Sheet1    2    ${var}    #Get User Name
+    \    ${Pswd_l}=    Read Cell Data By Coordinates    Sheet1    3    ${var}    #Get Password
+    \    Go To SDFC    ${SiteUrl_l}    ${Username_l}    ${Pswd_l}
+    \    Navi To New Object Page    ${menu_l}
+    \    Fields Validation    ${fields_l}
+    \    Close All Browsers
+
+PC Edit
+    Get Data From Excel
+    Vlidate Mobile Safari Fields    ${TabData}
+
+Mobile Safari New
+    Get Data From Excel
+    Vlidate Mobile Safari Fields    ${TabData}
+
+Mobile Safari Edit
+    Get Data From Excel
+    Vlidate Mobile Safari Fields    ${TabData}
+
+Mobile APP New
+    Get Data From Excel
+    Vlidate Mobile App Fields    ${TabData}
+
+Mobile APP Edit
+    Get Data From Excel
+    Vlidate Mobile App Fields    ${TabData}
+
+*** Keywords ***
+Go To SDFC
+    [Arguments]    ${SiteUrl}    ${Username}    ${Pswd}
+    Open Browser    about:    browser=chrome    desired_capabilities={"deviceName": "Google Nexus 5"}
+    Go to    ${SiteUrl}
+    #Click Element    xpath=//*[@id="use_new_identity"]
+    Input Text    //*[@id="username"]    ${Username}
+    Input Password    //*[@id="password"]    ${Pswd}
+    Click Button    //*[@id="Login"]
+
+Fields Validation
+    [Arguments]    ${fields}
+    @{data}=    Split String    ${fields}    ;\n
+    : FOR    ${var}    IN    @{data}
+    \    ${check}=    Fetch From Right    ${var}    :
+    \    ${fields_name}=    Fetch From Left    ${var}    :
+    \    Run Keyword If    '${check}'=='M'    Page Should Contain Mandatory Fields    ${fields_name}
+    \    Run Keyword If    '${check}'=='E'    Page Should Contain Editable Fields    ${fields_name}
+    \    Run Keyword If    '${check}'=='R'    Page Should Contain Read Fields    ${fields_name}
+    \    Run Keyword If    '${check}'=='N'    Page Should Not Contain    ${fields_name}
+
+Navi To New Object Page
+    [Arguments]    ${menu_l}
+    Wait And Click Element    ${toogleNavi}    timeout=30s    #Expand tabs
+    @{data}=    Split String    ${menu_l}    ->
+    : FOR    ${index}    ${item}    IN ENUMERATE    @{data}
+    \    Run Keyword If    ${index}==0    Wait And Click Element    xpath=//div[@class="title truncate" and text()="${item}"]    timeout=30s    #Go to tab
+    \    Run Keyword If    ${index}==1    Wait And Click Element    xpath=//div[@class="active oneContent"]//div[text()="${item}"]    timeout=30s    #Click [New] Button in Account page
+    \    Run Keyword If    ${index}==2    Wait And Click Element    xpath=//span[text()="${item}"]    timeout=30s    #Select record type if necessary
+    \    Run Keyword If    ${index}==2    Wait And Click Element    xpath=//span[text()="Next"]    timeout=30s
+
+Clean Up test environment
+    Close All Browsers
+
+Get Data From Excel
+    ${excel_path}=    Catenate    SEPARATOR=    ${CURDIR}    ${excel_file}
+    Open Excel    ${excel_path}
+
+Page Should Contain Mandatory Fields
+    [Arguments]    ${fields_name}
+    ${m_count}=    Get Matching Xpath Count    xpath=//div[@class="modal-container slds-modal__container"]//*[text()="${fields_name}"]/parent::*/parent::*/*[@aria-required="true"]
+    Should Be True    ${m_count}==1
+
+Page Should Contain Editable Fields
+    [Arguments]    ${fields_name}
+    ${m_count}=    Get Matching Xpath Count    xpath=//div[@class="modal-container slds-modal__container"]//*[text()="${fields_name}"]/parent::*/parent::*/*[@aria-required="true"]
+    ${e_count}=    Get Matching Xpath Count    xpath=//div[@class="modal-container slds-modal__container"]//*[text()="${fields_name}"]/parent::*/parent::*/*[self::input or self::select or self::textarea]
+    Should Be True    ${m_count}==0
+    Should Be True    ${e_count}==1
+
+Page Should Contain Read Fields
+    [Arguments]    ${fields_name}
+    Log    ${fields_name}
+
+Page Should Not Contain
+    [Arguments]    ${fields_name}
+    Log    ${fields_name}

@@ -1,0 +1,130 @@
+*** Settings ***
+Suite Setup       Mobile Cases test environment initialization
+Suite Teardown    Clean up mobile test environment
+Library           AppiumLibrary
+
+*** Variables ***
+${FirstName}      Anderson
+${LastName}       Justin
+${PhoneNum}       123456789
+${REMOTE_URL}     http://127.0.0.1:4723/wd/hub
+${PLATFORM_NAME}    Android
+${PLATFORM_VERSION}    5.1.1
+${DEVICE_NAME}    05157df50a169c15
+${BROWSER_NAME}    chrome
+${TIME_OUT}       30S
+${WAIT_STEP}      5s
+
+*** Test Cases ***
+Create a Case
+    Navi To Case App
+    Click New Button
+    #Input Name
+    Wait Until Page Contains Element    class=searchOrClear
+    Click Element    xpath=/html/body/div[5]/div[2]/div/div/div[2]/form/section/div/div/section[1]/div[3]/div/div/div/*[1]
+    Sleep    ${WAIT_STEP}
+    Wait Until Page Contains Element    xpath=/html/body/div[5]/div[2]/div[2]/div/div[2]/div/div[2]/ul/li[1]/a
+    Click Element    xpath=/html/body/div[5]/div[2]/div[2]/div/div[2]/div/div[2]/ul/li[1]/a
+    Sleep    5s
+    #Input Case Origin
+    Wait Until Page Contains Element    xpath=/html/body/div[5]/div[2]/div/div/div[2]/form/section/div/div/section[1]/div[9]/div/div/select
+    Click Element    xpath=/html/body/div[5]/div[2]/div/div/div[2]/form/section/div/div/section[1]/div[9]/div/div/select
+    Switch To Context    NATIVE_APP
+    Click Element    name=Phone
+    Switch To Context    WEBVIEW_1
+    Click Save Button
+    Sleep    ${WAIT_STEP}
+    Wait Exits and Click Element    xpath=//*[@id="oneHeader"]/div/div[1]/a
+    Sleep    ${WAIT_STEP}
+
+Update a Case
+    #Navi To Case App
+    #Click My Cases
+    Click Element    xpath=/html/body/div[5]/div[1]/section/div[1]/div[1]/div/div[2]/div[1]/div[1]/div/div[2]/section/ol/li/a/div
+    #Click Case
+    Wait Until Page Contains Element    xpath=/html/body/div[5]/div[1]/section/div[1]/div[1]/div[2]/div/div/div[2]/div[3]/ul/li/div[1]
+    Click Element    xpath=/html/body/div[5]/div[1]/section/div[1]/div[1]/div[2]/div/div/div[2]/div[3]/ul/li/div[1]
+    Sleep    ${WAIT_STEP}
+    Click Edit Button
+    Sleep    ${WAIT_STEP}
+    Click Save Button
+    Sleep    ${WAIT_STEP}
+    Wait Exits and Click Element    xpath=//*[@id="oneHeader"]/div/div[1]/a
+    Sleep    ${WAIT_STEP}
+    Wait Exits and Click Element    xpath=//*[@id="oneHeader"]/div/div[1]/a
+    Sleep    ${WAIT_STEP}
+
+Retrieve a Case
+    #Click My Cases
+    Click Element    xpath=/html/body/div[5]/div[1]/section/div[1]/div[1]/div/div[2]/div[1]/div[1]/div/div[2]/section/ol/li/a/div
+    #Click Case
+    Wait Until Page Contains Element    xpath=/html/body/div[5]/div[1]/section/div[1]/div[1]/div[2]/div/div/div[2]/div[3]/ul/li/div[1]
+    Wait Exits and Click Element    xpath=//*[@id="oneHeader"]/div/div[1]/a
+    Sleep    ${WAIT_STEP}
+
+Delete a Case
+    #Click My Cases
+    Wait Exits and Click Element    xpath=/html/body/div[5]/div[1]/section/div[1]/div[1]/div/div[2]/div[1]/div[1]/div/div[2]/section/ol/li/a/div
+    #Click Case
+    Wait Exits and Click Element    xpath=/html/body/div[5]/div[1]/section/div[1]/div[1]/div[2]/div/div/div[2]/div[3]/ul/li/div[1]
+    Sleep    ${WAIT_STEP}
+    Click Delete Button
+    Sleep    ${WAIT_STEP}
+    Click Element    xpath=/html/body/div[5]/div[2]/div/div[2]/div/div[2]/div/button[1]
+    Sleep    ${WAIT_STEP}
+
+*** Keywords ***
+Back Page
+    Sleep    3s
+    Wait Until Page Contains Element    xpath=/html/body/div[5]/div[1]/section/header/div/div[1]/a
+    Click Element    /html/body/div[5]/div[1]/section/header/div/div[1]/a
+
+Clean up mobile test environment
+    Close All Applications
+
+Click New Button
+    #Click [New] Button
+    #    body > div.phone.container.ios.oneAppLayoutContainer.forceAccess.forceStyle.oneOne > div.viewport > section > div.center.oneCenterStage > div.content > div > div.showingMru.forceSearchSearch > div.searchScrollerWrapper.noSelector > div.searchScroller.uiScroller.scroller-wrapper.scroll-vertical > div > div.mruContainer > section > header > div.bRight > ul > li > button
+    Wait Until Page Contains Element    class=buttonItem
+    Click Element    class=buttonItem
+
+Click Save Button
+    #Click [Save]    /html/body/div[5]/div[2]/div/div/div[1]/button[1]
+    Wait Until Page Contains Element    xpath=/html/body/div[5]/div[2]/div/div/div[1]/button[1]    timeout=${TIME_OUT}
+    Click Element    xpath=/html/body/div[5]/div[2]/div/div/div[1]/button[1]
+
+Click Edit Button
+    #Click [Edit]
+    Wait Until Page Contains Element    xpath=//*[@id="actionBarItem_Edit"]/button    timeout=${TIME_OUT}
+    Click Element    xpath=//*[@id="actionBarItem_Edit"]/button
+
+Click Delete Button
+    #Click [Delete]
+    Wait Until Page Contains Element    xpath=//*[@id="actionBarItem_Delete"]/button    timeout=${TIME_OUT}
+    Click Element    xpath=//*[@id="actionBarItem_Delete"]/button
+
+Navi To Case App
+    Wait Until Page Contains Element    //*[@id="oneHeader"]/div/div[1]/div/a    timeout=${TIME_OUT}
+    Click Element    //*[@id="oneHeader"]/div/div[1]/div/a
+    Wait Until Page Contains Element    css=body > div.phone.container.oneAppLayoutContainer.forceAccess.forceStyle.oneOne > div.viewport > div > div > div > div > ul:nth-child(5) > li:nth-child(2) > a    timeout=${TIME_OUT}
+    Click Element    css=body > div.phone.container.oneAppLayoutContainer.forceAccess.forceStyle.oneOne > div.viewport > div > div > div > div > ul:nth-child(5) > li:nth-child(2) > a
+    #Wait until [New] button exists
+    Wait Until Page Contains Element    class=buttonItem
+
+Mobile Cases test environment initialization
+    Open Application    ${REMOTE_URL}    platformName=${PLATFORM_NAME}    PLATFORM_VERSION=${PLATFORM_VERSION}    deviceName=${DEVICE_NAME}    browserName=${BROWSER_NAME}
+    Go To Url    http://login.salesforce.com
+    Wait Until Page Contains Element    //*[@id="username"]    timeout=${TIME_OUT}
+    Input Text    //*[@id="username"]    lanny.zhu@pwcsdctest.com
+    Wait Until Page Contains Element    //*[@id="password"]    timeout=3
+    Input Password    //*[@id="password"]    abcd1234
+    Sleep    3s
+    Wait Until Page Contains Element    //*[@id="Login"]    timeout=${TIME_OUT}
+    Click Element    //*[@id="Login"]
+    #Wait Until Page Contains Element    //*[@id="563:2;a"]
+    Sleep    38.5s
+
+Wait Exits and Click Element
+    [Arguments]    @{locator}
+    Wait Until Page Contains Element    @{locator}
+    Click Element    @{locator}

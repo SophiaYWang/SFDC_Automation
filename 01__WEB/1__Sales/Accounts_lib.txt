@@ -1,0 +1,28 @@
+*** Settings ***
+Library           SfdcLibrary    #Suite Setup | Test environment initialization
+Library           Selenium2Library
+
+*** Variables ***
+&{Attributes}     Account Name=Test Account    Account Number=22334455667788
+
+*** Test Cases ***
+Create Account
+    Sfdc Login Web    lanny.zhu@pwcsdctest.com    abcd1234    chrome
+    Sfdc Switch App    sales
+    Sfdc Navigate To    accounts
+    Sfdc Create Entity    accounts    {'Account_Name': 'Test Account', 'Account_Number': '22334455667788'}
+
+Update Account
+    Sfdc Switch App    sales
+    Sfdc Navigate To    accounts
+    Sfdc Update Entity    accounts    {'Account_Name': 'Test Account', 'Account_Number': '22334455667788'}
+
+Retrieve Account
+    Sfdc Switch App    sales
+    Sfdc Navigate To    accounts
+    Sfdc Retrieve Entity    accounts    {'Account_Name': 'Test Account', 'Account_Number': '22334455667788'}
+
+Delete Account
+    Sfdc Switch App    sales
+    Sfdc Navigate To    accounts
+    Sfdc Delete Entity    accounts    {'Account_Name': 'Test Account'}
