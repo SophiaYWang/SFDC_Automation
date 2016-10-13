@@ -21,12 +21,12 @@ Chrome
     \    Wait Until Element Is Visible    xpath=/html/body/div[5]/div[1]/header    timeout=30s
     \    Click Element    ${tab_xpath}
     \    Tabs Validation    ${tabs_l}
-    Close All Browsers
+    \    Close All Browsers
 
 *** Keywords ***
 Go To SDFC
     [Arguments]    ${SiteUrl}    ${Username}    ${Pswd}
-    Open Browser    about:    browser=ff
+    Open Browser    about:    browser=chrome
     Go to    ${SiteUrl}
     #Click Element    xpath=//*[@id="use_new_identity"]
     Input Text    //*[@id="username"]    ${Username}

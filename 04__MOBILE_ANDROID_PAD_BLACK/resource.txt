@@ -1,0 +1,84 @@
+*** Variables ***
+${FirstName}      Samsung
+${LastName}       PadBlack
+${NameTitle}      Mr.
+${PhoneNum}       4008123123
+
+*** Keywords ***
+Clean up mobile test environment
+    Close All Applications
+
+Click Delete Button
+    #Click [Delete]
+    Wait Until Page Contains Element    xpath=//div[@id="actionBarItem_Delete"]/button    timeout=${TIME_OUT}
+    Click Element    xpath=//div[@id="actionBarItem_Delete"]/button
+
+Click Edit Button
+    #Click [Edit]
+    Wait Until Page Contains Element    xpath=//div[@id="actionBarItem_Edit"]/button    timeout=${TIME_OUT}
+    Click Element    xpath=//div[@id="actionBarItem_Edit"]/button
+
+Click Mycases
+    Wait Until Page Contains Element    //select[@name="listViewPicklist"]
+    Wait Until Page Contains Element    //select[@name="listViewPicklist"]    timeout=${TIME_OUT}
+    Click Element    //select[@name="listViewPicklist"]
+    Wait Until Page Contains Element    //option[text()="My Cases"]    timeout=${TIME_OUT}
+    Click Element    //option[text()="My Cases"]
+
+Click Mycontacts
+    #In "Contacts" tab
+    Wait Until Page Contains Element    //select[@name="listViewPicklist"]
+    Wait Until Page Contains Element    //select[@name="listViewPicklist"]    timeout=${TIME_OUT}
+    Click Element    //select[@name="listViewPicklist"]
+    Wait Until Page Contains Element    //option[text()="My Contacts"]    timeout=${TIME_OUT}
+    Click Element    //option[text()="My Contacts"]
+
+Click New Button
+    Wait Until Page Contains Element    //span[text()="New"]/parent::button
+    Click Element    //span[text()="New"]/parent::button
+
+Click Save Button
+    Wait Until Page Contains Element    xpath=//span[text()="Save"]/parent::button    timeout=${TIME_OUT}
+    Click Element    xpath=//span[text()="Save"]/parent::button
+
+Go Back Click
+    Sleep    3s
+    Wait Until Page Contains Element    xpath=//a[./span[text()="Back"]]
+    Click Element    //a[./span[text()="Back"]]
+
+Mobile Cases test environment initialization
+    Open Application    ${REMOTE_URL}    platformName=${PLATFORM_NAME}    PLATFORM_VERSION=${PLATFORM_VERSION}    udid=${UDID}    deviceName=""    browserName=${BROWSER_NAME}
+    ...    noreset=true
+    Go To Url    http://login.salesforce.com
+    Wait Until Page Contains Element    //*[@id="username"]    timeout=${TIME_OUT}
+    Input Text    //*[@id="username"]    lanny.zhu@pwcsdctest.com
+    Wait Until Page Contains Element    //*[@id="password"]    timeout=3
+    Input Password    //*[@id="password"]    Abcd1234
+    Sleep    3s
+    Wait Until Page Contains Element    //*[@id="Login"]    timeout=${TIME_OUT}
+    Click Element    //*[@id="Login"]
+    Wait Until Page Contains Element    //a[@title="Toggle SideBar"]    timeout=120s
+
+Navi To Case App
+    Wait Until Page Contains Element    //a[@title="Toggle SideBar"]    timeout=${TIME_OUT}
+    Click Element    //a[@title="Toggle SideBar"]
+    Wait Until Page Contains Element    xpath=//div[text()="Cases"]    timeout=${TIME_OUT}
+    Click Element    xpath=//div[text()="Cases"]
+    #Wait until [New] button exists
+    Wait Until Page Contains Element    xpath=//select
+
+Navi To Contact App
+    Wait Until Page Contains Element    //a[@title="Toggle SideBar"]    timeout=${TIME_OUT}
+    Click Element    //a[@title="Toggle SideBar"]
+    Wait Until Page Contains Element    xpath=//div[text()="Contacts"]    timeout=${TIME_OUT}
+    Click Element    xpath=//div[text()="Contacts"]
+    #Wait until [New] button exists
+    Wait Until Page Contains Element    xpath=//select
+
+Wait Entity Loading
+    Wait Until Page Does Not Contain Element    //a[@class="toggle"]
+
+Wait Exists And Click Element
+    [Arguments]    @{locator}
+    Wait Until Page Contains Element    @{locator}    timeout=${TIME_OUT}
+    Click Element    @{locator}

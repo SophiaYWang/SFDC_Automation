@@ -7,11 +7,11 @@ Library           AppiumLibrary
 ${FirstName}      Anderson
 ${LastName}       Justin
 ${PhoneNum}       123456789
-${REMOTE_URL}     http://localhost:4723/wd/hub
-${PLATFORM_NAME}    android
-${PLATFORM_VERSION}    6.0.1
-${DEVICE_NAME}    emulator-5554
-${BROWSER_NAME}    browser
+${REMOTE_URL}     http://127.0.0.1:4723/wd/hub
+${PLATFORM_NAME}    iOS
+${PLATFORM_VERSION}    8.4
+${DEVICE_NAME}    CLY's iPhone
+${BROWSER_NAME}    safari
 ${TIME_OUT}       30S
 ${WAIT_STEP}      5s
 
@@ -32,10 +32,11 @@ Create a Case
     Switch To Context    NATIVE_APP
     Click Element    name=Phone
     Switch To Context    WEBVIEW_1
+    #Click [Save]    /html/body/div[5]/div[2]/div/div/div[1]/button[1]
+    Wait Until Page Contains Element    xpath=/html/body/div[5]/div[2]/div/div/div[1]/button[1]    timeout=${TIME_OUT}
+    Click Element    xpath=/html/body/div[5]/div[2]/div/div/div[1]/button[1]
     Click Save Button
-    Sleep    ${WAIT_STEP}
-    Wait Exits and Click Element    xpath=//*[@id="oneHeader"]/div/div[1]/a
-    Sleep    ${WAIT_STEP}
+    Go Back Click
 
 Update a Case
     #Navi To Case App
@@ -44,43 +45,32 @@ Update a Case
     #Click Case
     Wait Until Page Contains Element    xpath=/html/body/div[5]/div[1]/section/div[1]/div[1]/div[2]/div/div/div[2]/div[3]/ul/li/div[1]
     Click Element    xpath=/html/body/div[5]/div[1]/section/div[1]/div[1]/div[2]/div/div/div[2]/div[3]/ul/li/div[1]
-    Sleep    ${WAIT_STEP}
     Click Edit Button
-    Sleep    ${WAIT_STEP}
     Click Save Button
-    Sleep    ${WAIT_STEP}
-    Wait Exits and Click Element    xpath=//*[@id="oneHeader"]/div/div[1]/a
-    Sleep    ${WAIT_STEP}
-    Wait Exits and Click Element    xpath=//*[@id="oneHeader"]/div/div[1]/a
-    Sleep    ${WAIT_STEP}
+    Go Back Click
+    Go Back Click
 
 Retrieve a Case
     #Click My Cases
     Click Element    xpath=/html/body/div[5]/div[1]/section/div[1]/div[1]/div/div[2]/div[1]/div[1]/div/div[2]/section/ol/li/a/div
     #Click Case
     Wait Until Page Contains Element    xpath=/html/body/div[5]/div[1]/section/div[1]/div[1]/div[2]/div/div/div[2]/div[3]/ul/li/div[1]
-    Wait Exits and Click Element    xpath=//*[@id="oneHeader"]/div/div[1]/a
-    Sleep    ${WAIT_STEP}
+    Go Back Click
+    Go Back Click
 
 Delete a Case
     #Click My Cases
-    Wait Exits and Click Element    xpath=/html/body/div[5]/div[1]/section/div[1]/div[1]/div/div[2]/div[1]/div[1]/div/div[2]/section/ol/li/a/div
+    Click Element    xpath=/html/body/div[5]/div[1]/section/div[1]/div[1]/div/div[2]/div[1]/div[1]/div/div[2]/section/ol/li/a/div
     #Click Case
-    Wait Exits and Click Element    xpath=/html/body/div[5]/div[1]/section/div[1]/div[1]/div[2]/div/div/div[2]/div[3]/ul/li/div[1]
-    Sleep    ${WAIT_STEP}
+    Wait Until Page Contains Element    xpath=/html/body/div[5]/div[1]/section/div[1]/div[1]/div[2]/div/div/div[2]/div[3]/ul/li/div[1]
     Click Delete Button
-    Sleep    ${WAIT_STEP}
-    Click Element    xpath=/html/body/div[5]/div[2]/div/div[2]/div/div[2]/div/button[1]
-    Sleep    ${WAIT_STEP}
+    Click Element    /html/body/div[5]/div[2]/div/div[2]/div/div[2]/div/button[1]
 
 *** Keywords ***
-Back Page
+Go Back Click
     Sleep    3s
     Wait Until Page Contains Element    xpath=/html/body/div[5]/div[1]/section/header/div/div[1]/a
     Click Element    /html/body/div[5]/div[1]/section/header/div/div[1]/a
-
-Clean up mobile test environment
-    Close All Applications
 
 Click New Button
     #Click [New] Button
@@ -112,7 +102,8 @@ Navi To Case App
     Wait Until Page Contains Element    class=buttonItem
 
 Mobile Cases test environment initialization
-    Open Application    ${REMOTE_URL}    platformName=${PLATFORM_NAME}    PLATFORM_VERSION=${PLATFORM_VERSION}    deviceName=${DEVICE_NAME}    browserName=${BROWSER_NAME}
+    Open Application    ${REMOTE_URL}    platformName=${PLATFORM_NAME}    PLATFORM_VERSION=${PLATFORM_VERSION}    deviceName=${DEVICE_NAME}    browserName=${BROWSER_NAME}    autoWebview=true
+    ...    BundleID=com.pwcsdc.lilly.safari    udid=9e9687bcf119b3e759e4439383e886cbd2be10d9
     Go To Url    http://login.salesforce.com
     Wait Until Page Contains Element    //*[@id="username"]    timeout=${TIME_OUT}
     Input Text    //*[@id="username"]    lanny.zhu@pwcsdctest.com
@@ -124,7 +115,5 @@ Mobile Cases test environment initialization
     #Wait Until Page Contains Element    //*[@id="563:2;a"]
     Sleep    38.5s
 
-Wait Exits and Click Element
-    [Arguments]    @{locator}
-    Wait Until Page Contains Element    @{locator}
-    Click Element    @{locator}
+Clean up mobile test environment
+    Close All Applications

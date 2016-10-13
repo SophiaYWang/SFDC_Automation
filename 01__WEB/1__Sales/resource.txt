@@ -1,0 +1,7 @@
+*** Variables ***
+
+*** Keywords ***
+Wait And Click Element
+    [Arguments]    ${locator}    ${timeout}
+    Wait Until Element Is Visible    ${locator}    ${timeout}
+    Click Element    ${locator}

@@ -1,6 +1,7 @@
 *** Variables ***
 ${excel_file}     \\TestDataV0.01.xls
 ${toogleNavi}     xpath=//*[@class="toggleNav desktop forceIconDeprecated forceHeaderButton"]
+${tab_xpath}      xpath=//*[@id="oneHeader"]/div[2]/div[1]/div[1]/a
 
 *** Keywords ***
 Wait And Click Element

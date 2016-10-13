@@ -1,4 +1,5 @@
 *** Settings ***
+Documentation     HTMLUNIT example
 Suite Setup       Contact test environment initialization
 Suite Teardown    Clean up test environment
 Library           Selenium2Library
@@ -13,31 +14,19 @@ ${StepWait}       2s
 *** Test Cases ***
 Create Contact
     Click Element    //*[@id="Contact_Tab"]/a
-    Sleep    ${StepWait}
     Click Button    //*[@id="hotlist"]/table/tbody/tr/td[2]/input
-    Sleep    ${StepWait}
     Input Text    //*[@id="name_firstcon2"]    ${FirstName}
-    Sleep    ${StepWait}
     Input Text    //*[@id="name_lastcon2"]    ${LastName}
-    Sleep    ${StepWait}
     Click Button    //*[@id="topButtonRow"]/input[1]
-    Sleep    ${StepWait}
 
 Update Contact
     Click Element    //*[@id="Contact_Tab"]/a
-    Sleep    ${StepWait}
     Select From List By Label    name=fcf    New This Week
-    Sleep    ${StepWait}
     Click Button    name=go
-    Sleep    ${StepWait}
     Wait Until Element Is Visible    id=ext-gen11
-    Sleep    ${StepWait}
     Click Element    partial link=${FirstName}
-    Sleep    ${StepWait}
     Wait Until Element Is Enabled    name=edit
-    Sleep    ${StepWait}
     Click Button    name=edit
-    Sleep    ${StepWait}
     Input Text    //*[@id="con10"]    ${PhoneNum}
     Sleep    ${StepWait}
     Click Button    name=save
@@ -76,11 +65,11 @@ Delete Contact
 
 *** Keywords ***
 Contact test environment initialization
-    Open Browser    about:    browser=chrome
+    Open Browser    url=http://login.salesforce.com    browser=HTMLUNIT    remote_url=http://127.0.0.1:4444/wd/hub
     Go to    http://login.salesforce.com
     #Click Element    xpath=//*[@id="use_new_identity"]
     Input Text    //*[@id="username"]    lanny.zhu@pwcsdctest.com
-    Input Password    //*[@id="password"]    abcd1234
+    Input Password    //*[@id="password"]    Abcd1234
     Click Button    //*[@id="Login"]
     Wait Until Element Is Visible    //*[@id="Contact_Tab"]/a    timeout=30s
 

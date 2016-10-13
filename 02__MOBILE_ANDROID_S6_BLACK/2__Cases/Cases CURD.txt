@@ -1,0 +1,102 @@
+*** Settings ***
+Suite Setup       Run Keywords    Open Application    ${REMOTE_URL}    platformName=${PLATFORM_NAME}    PLATFORM_VERSION=${PLATFORM_VERSION}    deviceName=""    udid=${UDID}
+...               browserName=${BROWSER_NAME}
+...               AND    Mobile Cases test environment initialization
+Suite Teardown    Clean up mobile test environment
+Library           AppiumLibrary    timeout=${TIME_OUT}
+Resource          ../resource.txt
+
+*** Variables ***
+${FirstName}      Samsung
+${LastName}       S6Black
+${PhoneNum}       123456789
+${REMOTE_URL}     http://localhost:4723/wd/hub
+${PLATFORM_NAME}    android
+${PLATFORM_VERSION}    6.0.1
+${DEVICE_NAME}    dd53f7d6
+${UDID}           dd53f7d6
+${BROWSER_NAME}    chrome
+${TIME_OUT}       30S
+${WAIT_STEP}      5s
+
+*** Test Cases ***
+Loop test
+    : FOR    ${i}    IN RANGE    0    5
+    \    ${passed}=    Run Keyword And Return Status    Create a Case
+    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
+    \    ${passed}=    Run Keyword And Return Status    Update a Case
+    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
+    \    ${passed}=    Run Keyword And Return Status    Retrieve a Case
+    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
+    \    ${passed}=    Run Keyword And Return Status    Delete a Case
+    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
+    \    Log    "Loop Iteration ${i} done!"
+
+Create
+    Run Keyword And Continue On Failure    Create a Case
+
+Update
+    Run Keyword And Continue On Failure    Update a Case
+
+Retrieve
+    Run Keyword And Continue On Failure    Retrieve a Case
+
+Delete
+    Run Keyword And Continue On Failure    Delete a Case
+
+*** Keywords ***
+Create a Case
+    Navi To Case App
+    Click New Button
+    #Input Name
+    Wait Until Page Contains Element    class=searchOrClear
+    Click Element    xpath=//span[text()="Contact Name"]/parent::*/following-sibling::div[1]/input
+    Wait Exits and Click Element    xpath=//a[text()="${FirstName} ${LastName}"][1]
+    Wait Until Page Does Not Contain    //div[@class="forceModalSpinner"]
+    #Input Case Origin
+    Wait Exits and Click Element    xpath=//span[text()="Case Origin"]/parent::*/following-sibling::select[1]
+    Switch To Context    NATIVE_APP
+    Click Element    name=Phone
+    Switch To Context    WEBVIEW_1
+    Click Save Button
+    Go Back Click
+    Log    "Creat a Case succeeded"
+
+Update a Case
+    Navi To Case App
+    #Click My Cases
+    Click Element    xpath=//span[text()="My Cases"]
+    Refresh MyCases
+    #Click Case
+    Wait Until Page Contains Element    xpath=//div[@class="listContent"]/ul[1]/li[1]/div[1]
+    Wait Exits and Click Element    xpath=//*[text()="${FirstName} ${LastName}"][1]
+    Wait Until Page Does Not Contain    //div[@class="forceModalSpinner"]
+    Click Edit Button
+    Click Save Button
+    Go Back Click
+    Go Back Click
+    Log    "Update a Case succeeded"
+
+Retrieve a Case
+    Navi To Case App
+    #Click My Cases
+    Click Element    xpath=//span[text()="My Cases"]
+    #Click Case
+    Wait Until Page Contains Element    xpath=//div[@class="listContent"]/ul[1]/li[1]/div[1]
+    #Check result
+    Wait Until Page Contains Element    xpath=//*[text()="${FirstName} ${LastName}"]
+    Wait Exits and Click Element    xpath=//*[@id="oneHeader"]/div/div[1]/a
+    Log    "Retrieve a Case succeeded"
+
+Delete a Case
+    Navi To Case App
+    #Click My Cases
+    Wait Exits and Click Element    xpath=//span[text()="My Cases"]
+    #Click Case
+    Wait Exits and Click Element    xpath=//*[text()="${FirstName} ${LastName}"][1]
+    Click Delete Button
+    #Confirm Delete
+    Click Element    xpath=//button[@title="Delete" and @data-action="Delete"]
+    Wait Until Page Contains Element    xpath=//span[text()="You deleted the case."]
+    Go Back Click
+    Log    "Delete a Case succeeded"

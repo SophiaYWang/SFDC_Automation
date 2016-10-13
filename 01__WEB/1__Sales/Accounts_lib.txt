@@ -7,7 +7,7 @@ Library           Selenium2Library
 
 *** Test Cases ***
 Create Account
-    Sfdc Login Web    lanny.zhu@pwcsdctest.com    abcd1234    chrome
+    Sfdc Login Web    lanny.zhu@pwcsdctest.com    Abcd1234    chrome
     Sfdc Switch App    sales
     Sfdc Navigate To    accounts
     Sfdc Create Entity    accounts    {'Account_Name': 'Test Account', 'Account_Number': '22334455667788'}
