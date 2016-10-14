@@ -4,6 +4,7 @@ Suite Setup       Contact test environment initialization
 Suite Teardown    Clean up test environment
 Library           Selenium2Library
 Library           os
+Resource          resource.txt
 
 *** Variables ***
 ${FirstName}      Anderson
@@ -68,8 +69,8 @@ Contact test environment initialization
     Open Browser    url=http://login.salesforce.com    browser=HTMLUNIT    remote_url=http://127.0.0.1:4444/wd/hub
     Go to    http://login.salesforce.com
     #Click Element    xpath=//*[@id="use_new_identity"]
-    Input Text    //*[@id="username"]    lanny.zhu@pwcsdctest.com
-    Input Password    //*[@id="password"]    Abcd1234
+    Input Text    //*[@id="username"]    ${WEB_USERNAME}
+    Input Password    //*[@id="password"]    ${WEB_PASSWORD}
     Click Button    //*[@id="Login"]
     Wait Until Element Is Visible    //*[@id="Contact_Tab"]/a    timeout=30s
 

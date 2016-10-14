@@ -1,21 +1,24 @@
 *** Settings ***
 Suite Setup       Run Keywords    Open Application    ${REMOTE_URL}    platformName=${PLATFORM_NAME}    PLATFORM_VERSION=${PLATFORM_VERSION}    deviceName=""    udid=${UDID}
-...               browserName=${BROWSER_NAME}
+...               browserName=${BROWSER_NAME}    bundleId=${BUNDLEID}    appType=${APPTYPE}    web.url=${web.url}
 ...               AND    Mobile Cases test environment initialization
 Suite Teardown    Clean up mobile test environment
 Library           AppiumLibrary    timeout=${TIME_OUT}
 Resource          ../resource.txt
 
 *** Variables ***
-${FirstName}      Samsung
-${LastName}       S6White
+${FirstName}      Apple
+${LastName}       iphone6_white
 ${PhoneNum}       123456789
-${REMOTE_URL}     http://localhost:4723/wd/hub
-${PLATFORM_NAME}    android
-${PLATFORM_VERSION}    6.0.1
-${DEVICE_NAME}    dd53f7d6
-${UDID}           dd53f7d6
-${BROWSER_NAME}    chrome
+${REMOTE_URL}     http://172.31.162.198:4723/wd/hub
+${PLATFORM_NAME}    ios
+${PLATFORM_VERSION}    9.3
+${DEVICE_NAME}    iphone
+${UDID}           e8736064445aaae74c9c16d50276af3de4796bf0
+${BUNDLEID}       com.pwc.REX
+${APPTYPE}        web
+${web.url}        http://login.salesforce.com
+${BROWSER_NAME}    safari
 ${TIME_OUT}       30S
 ${WAIT_STEP}      5s
 
@@ -55,9 +58,7 @@ Create a Case
     Wait Until Page Does Not Contain    //div[@class="forceModalSpinner"]
     #Input Case Origin
     Wait Exits and Click Element    xpath=//span[text()="Case Origin"]/parent::*/following-sibling::select[1]
-    Switch To Context    NATIVE_APP
-    Click Element    name=Phone
-    Switch To Context    WEBVIEW_1
+    Click Element    //option[text()="Phone"]
     Click Save Button
     Go Back Click
     Log    "Creat a Case succeeded"

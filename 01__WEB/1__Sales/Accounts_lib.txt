@@ -1,13 +1,14 @@
 *** Settings ***
 Library           SfdcLibrary    #Suite Setup | Test environment initialization
 Library           Selenium2Library
+Resource          resource.txt
 
 *** Variables ***
 &{Attributes}     Account Name=Test Account    Account Number=22334455667788
 
 *** Test Cases ***
 Create Account
-    Sfdc Login Web    lanny.zhu@pwcsdctest.com    Abcd1234    chrome
+    Sfdc Login Web    ${WEB_USERNAME}    ${WEB_PASSWORD}    chrome
     Sfdc Switch App    sales
     Sfdc Navigate To    accounts
     Sfdc Create Entity    accounts    {'Account_Name': 'Test Account', 'Account_Number': '22334455667788'}

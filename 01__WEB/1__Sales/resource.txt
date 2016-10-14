@@ -1,3 +1,6 @@
+*** Settings ***
+Resource          ../../user_credential.txt
+
 *** Variables ***
 
 *** Keywords ***

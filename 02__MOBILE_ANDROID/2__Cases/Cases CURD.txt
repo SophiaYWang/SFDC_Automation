@@ -5,6 +5,7 @@ Suite Setup       Run Keywords    Open Application    ${REMOTE_URL}    platformN
 Suite Teardown    Clean up mobile test environment
 Library           AppiumLibrary    timeout=${TIME_OUT}
 Resource          ../resource.txt
+Resource          ../../user_credential.txt
 
 *** Variables ***
 ${FirstName}      Samsung

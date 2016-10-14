@@ -7,8 +7,6 @@ Resource          Resource.txt
 
 *** Variables ***
 ${SiteUrl}        https://salespro-sams--SCMEPDEV.cs4.my.salesforce.com
-${Username}       lanny.zhu@pwc.com.samsdev.com
-${Pswd}           abcd1234
 
 *** Test Cases ***
 PC New
@@ -51,7 +49,7 @@ Mobile APP Edit
 *** Keywords ***
 Go To SDFC
     [Arguments]    ${SiteUrl}    ${Username}    ${Pswd}
-    Open Browser    about:    browser=chrome    desired_capabilities={"deviceName": "Google Nexus 5"}
+    Open Browser    about:    browser=chrome
     Go to    ${SiteUrl}
     #Click Element    xpath=//*[@id="use_new_identity"]
     Input Text    //*[@id="username"]    ${Username}

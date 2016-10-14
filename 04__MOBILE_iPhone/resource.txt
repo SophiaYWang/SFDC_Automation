@@ -1,6 +1,7 @@
+*** Settings ***
+Resource          ../user_credential.txt
+
 *** Variables ***
-${USERNAME}       androidautotest1@pwcsdctest.com
-${PASSWORD}       Abcd1234
 ${TIME_OUT}       30S
 ${WAIT_STEP}      5s
 

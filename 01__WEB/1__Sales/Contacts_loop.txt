@@ -69,8 +69,8 @@ Contact test environment initialization
     Set Selenium Speed    ${speed}
     Go to    http://login.salesforce.com
     #Click Element    xpath=//*[@id="use_new_identity"]
-    Input Text    //*[@id="username"]    lanny.zhu@pwcsdctest.com
-    Input Password    //*[@id="password"]    Abcd1234
+    Input Text    //*[@id="username"]    ${WEB_USERNAME}
+    Input Password    //*[@id="password"]    ${WEB_PASSWORD}
     Click Button    //*[@id="Login"]
     Wait Until Element Is Visible    //*[@id="Contact_Tab"]/a    timeout=30s
 
