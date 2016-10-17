@@ -1,18 +1,16 @@
 *** Settings ***
 Suite Setup       Mobile Cases test environment initialization
 Suite Teardown    Clean up mobile test environment
-Library           AppiumLibrary
+Library           AppiumLibrary    timeout=${TIME_OUT}
 Resource          ../resource.txt
 
 *** Variables ***
-${REMOTE_URL}     http://localhost:4725/wd/hub
+${REMOTE_URL}     http://localhost:4723/wd/hub
 ${PLATFORM_NAME}    android
 ${PLATFORM_VERSION}    6.0.1
-${DEVICE_NAME}    5854a275080b1d81
-${UDID}           5854a275080b1d81
+${UDID}           1171a8350514dceb
 ${BROWSER_NAME}    chrome
 ${TIME_OUT}       30S
-${WAIT_STEP}      5s
 
 *** Test Cases ***
 Loop test
@@ -31,17 +29,14 @@ Create Contact
     Navi To Contact App
     Click New Button
     Wait Entity Loading
-    Wait Until Page Contains Element    xpath=//span[text()="Save"]    timeout=${TIME_OUT}
+    Wait Until Page Contains Element    xpath=//span[text()="Save"]
     #Input Name
     Wait Exists And Click Element    xpath=//span[text()="Name"]/parent::*/parent::*//select
     Wait Exists And Click Element    xpath=//span[text()="Name"]/parent::*/parent::*//option[text()="${NameTitle}"]
     Input Text    xpath=//input[@placeholder="First Name"]    ${FirstName}
     Input Text    xpath=//input[@placeholder="Last Name (required)"]    ${LastName}
-    Sleep    ${WAIT_STEP}
     Click Save Button
-    Sleep    ${WAIT_STEP}
     Go Back Click
-    Sleep    ${WAIT_STEP}
 
 Update the Contact
     Navi To Contact App
@@ -49,32 +44,24 @@ Update the Contact
     #Click Case
     Wait Exists And Click Element    xpath=(//a[text()="${FirstName} ${LastName}"])[1]
     Wait Entity Loading
-    Sleep    ${WAIT_STEP}
     Click Edit Button
-    Sleep    ${WAIT_STEP}
     Input Text    xpath=//H3[text()="Contact Information"]/parent::*//span[text()="Phone"]/parent::*/parent::*/input    ${PhoneNum}
     Click Save Button
-    Sleep    ${WAIT_STEP}
     Go Back Click
-    Sleep    ${WAIT_STEP}
 
 Create A Case For That Contact
     Navi To Case App
     Click New Button
-    Wait Until Page Contains Element    xpath=//span[text()="Save"]    timeout=${TIME_OUT}
+    Wait Until Page Contains Element    xpath=//span[text()="Save"]
     #Input Name
     Wait Exists And Click Element    xpath=//span[text()="Contact Name"]/parent::*/following-sibling::div[1]/input
-    Sleep    ${WAIT_STEP}
     Wait Until Page Contains Element    xpath=//ul[@class="results"]/li[1]/a[1]
     Click Element    xpath=//a[text()="${FirstName} ${LastName}"][1]
-    Sleep    3s
     #Input Case Origin
     Wait Exists And Click Element    xpath=//span[text()="Case Origin"]/parent::*/following-sibling::select[1]
     Click Element    xpath=//option[text()="Phone"]
     Click Save Button
-    Sleep    ${WAIT_STEP}
     Go Back Click
-    Sleep    ${WAIT_STEP}
 
 Update That Case
     Navi To Case App
@@ -82,16 +69,12 @@ Update That Case
     #Click Case
     Wait Exists And Click Element    xpath=((//a[text()="${FirstName} ${LastName}"])[1]/parent::*/parent::*//a)[1]
     Wait Entity Loading
-    Sleep    ${WAIT_STEP}
     Click Edit Button
-    Sleep    ${WAIT_STEP}
     #Input Name
     Wait Exists And Click Element    xpath=//h3[text()="Web Information"]/parent::*//span[text()="Web Phone"]/../../input
     Input Text    //h3[text()="Web Information"]/parent::*//span[text()="Web Phone"]/../../input    ${PhoneNum}
     Click Save Button
-    Sleep    ${WAIT_STEP}
     Go Back Click
-    Sleep    ${WAIT_STEP}
 
 Retrieve That Case
     Navi To Case App
@@ -101,9 +84,7 @@ Retrieve That Case
     Wait Entity Loading
     #Check result
     Wait Until Page Contains Element    xpath=//*[text()="${FirstName} ${LastName}"]
-    Sleep    ${WAIT_STEP}
     Go Back Click
-    Sleep    ${WAIT_STEP}
 
 Delete That Case
     Navi To Case App
@@ -111,25 +92,19 @@ Delete That Case
     #Click Case
     Wait Exists And Click Element    xpath=((//a[text()="${FirstName} ${LastName}"])[1]/parent::*/parent::*//a)[1]
     Wait Entity Loading
-    Sleep    ${WAIT_STEP}
     Click Delete Button
-    Sleep    ${WAIT_STEP}
     #Confirm Delete
     Click Element    xpath=//button[@title="Delete" and @data-action="Delete"]
-    Sleep    ${WAIT_STEP}
 
 Check Contact
     Navi To Contact App
     Click Mycontacts
     #Click Contact
-    Sleep    ${WAIT_STEP}
     Wait Exists And Click Element    xpath=(//a[text()="${FirstName} ${LastName}"])[1]
     Wait Entity Loading
     #Check result
     Wait Until Page Contains Element    xpath=//*[text()="${FirstName} ${LastName}"]
-    Sleep    ${WAIT_STEP}
     Go Back Click
-    Sleep    ${WAIT_STEP}
 
 Delete The Contact
     Navi To Contact App
@@ -137,10 +112,7 @@ Delete The Contact
     #Click Case
     Wait Exists And Click Element    xpath=(//a[text()="${FirstName} ${LastName}"])[1]
     Wait Entity Loading
-    Sleep    ${WAIT_STEP}
     Click Delete Button
-    Sleep    ${WAIT_STEP}
     #Confirm Delete
     Click Element    xpath=//button[@title="Delete" and @data-action="Delete"]
-    Wait Until Page Contains Element    //span[text()="You deleted the contact."]    timeout=30s
-    Sleep    ${WAIT_STEP}
+    Wait Until Page Contains Element    //span[text()="You deleted the contact."]

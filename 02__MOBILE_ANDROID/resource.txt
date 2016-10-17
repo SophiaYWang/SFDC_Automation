@@ -1,10 +1,6 @@
 *** Settings ***
 Resource          ../user_credential.txt
 
-*** Variables ***
-${TIME_OUT}       30S
-${WAIT_STEP}      5s
-
 *** Keywords ***
 Clean up mobile test environment
     Close All Applications
