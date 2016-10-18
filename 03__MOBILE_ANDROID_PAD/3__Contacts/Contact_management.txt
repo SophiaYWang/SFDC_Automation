@@ -28,6 +28,8 @@ Create a Contact
     Input Text    xpath=//input[@placeholder="First Name"]    ${FirstName}
     Input Text    xpath=//input[@placeholder="Last Name (required)"]    ${LastName}
     Click Save Button
+    Wait Until Page Contains Element    xpath=//span[contains(., " was created.")]
+    Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
     Go Back Click
 
 Update a Contact
@@ -39,6 +41,8 @@ Update a Contact
     Click Edit Button
     Input Text    xpath=//H3[text()="Contact Information"]/parent::*//span[text()="Phone"]/parent::*/parent::*/input    ${PhoneNum}
     Click Save Button
+    Wait Until Page Contains Element    xpath=//span[contains(., " was saved.")]
+    Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
     Go Back Click
 
 Retrieve a Contact
@@ -58,7 +62,6 @@ Delete a Contact
     Wait Exists And Click Element    xpath=(//a[text()="${FirstName} ${LastName}"])[1]
     Wait Entity Loading
     Click Delete Button
-    #Confirm Delete
-    Click Element    xpath=//button[@title="Delete" and @data-action="Delete"]
+    Wait Until Page Contains Element    xpath=//span[contains(., " was deleted.")]
 
 *** Keywords ***
