@@ -10,22 +10,50 @@ ${PLATFORM_NAME}    android
 ${PLATFORM_VERSION}    6.0.1
 ${UDID}           1171a8350514dceb
 ${BROWSER_NAME}    chrome
-${TIME_OUT}       30S
+${TIME_OUT}       60S
+${FirstName}      New
+${LastName}       User_C_in_C
+${NameTitle}      Mr.
+${PhoneNum}       4008123123
 
 *** Test Cases ***
 Loop test
     : FOR    ${i}    IN RANGE    1    50
     \    Run Keyword And Continue On Failure    Create Contact
-    \    Run Keyword And Continue On Failure    Update the Contact
-    \    Run Keyword And Continue On Failure    Create A Case For That Contact
-    \    Run Keyword And Continue On Failure    Update That Case
-    \    Run Keyword And Continue On Failure    Retrieve That Case
-    \    Run Keyword And Continue On Failure    Delete That Case
-    \    Run Keyword And Continue On Failure    Check Contact
-    \    Run Keyword And Continue On Failure    Delete The Contact
+    \    Run Keyword And Continue On Failure    Update a Contact
+    \    Run Keyword And Continue On Failure    Create a Case for the Contact
+    \    Run Keyword And Continue On Failure    Update a Case
+    \    Run Keyword And Continue On Failure    Retrieve a Case
+    \    Run Keyword And Continue On Failure    Delete a Case
+    \    Run Keyword And Continue On Failure    Retrieve a Contact
+    \    Run Keyword And Continue On Failure    Delete a Contact
+
+Create Customer
+    Run Keyword And Continue On Failure    Create a Contact
+
+Update Customer
+    Run Keyword And Continue On Failure    Update a Contact
+
+Create a Case For The Customer
+    Run Keyword And Continue On Failure    Create a Case for the Contact
+
+Update Case
+    Run Keyword And Continue On Failure    Update a Case
+
+Check Case
+    Run Keyword And Continue On Failure    Retrieve a Case
+
+Delete Case
+    Run Keyword And Continue On Failure    Delete a Case
+
+Check Customer
+    Run Keyword And Continue On Failure    Retrieve a Contact
+
+Delete Customer
+    Run Keyword And Continue On Failure    Delete a Contact
 
 *** Keyword ***
-Create Contact
+Create a Contact
     Navi To Contact App
     Click New Button
     Wait Entity Loading
@@ -34,69 +62,76 @@ Create Contact
     Wait Exists And Click Element    xpath=//span[text()="Name"]/parent::*/parent::*//select
     Wait Exists And Click Element    xpath=//span[text()="Name"]/parent::*/parent::*//option[text()="${NameTitle}"]
     Input Text    xpath=//input[@placeholder="First Name"]    ${FirstName}
-    Input Text    xpath=//input[@placeholder="Last Name (required)"]    ${LastName}
+    Input Text    xpath=//input[@placeholder="Last Name"]    ${LastName}
     Click Save Button
+    Wait Until Page Contains Element    xpath=//span[contains(., " was created.")]
+    Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
     Go Back Click
 
-Update the Contact
+Update a Contact
     Navi To Contact App
     Click Mycontacts
     #Click Case
     Wait Exists And Click Element    xpath=(//a[text()="${FirstName} ${LastName}"])[1]
     Wait Entity Loading
     Click Edit Button
-    Input Text    xpath=//H3[text()="Contact Information"]/parent::*//span[text()="Phone"]/parent::*/parent::*/input    ${PhoneNum}
+    Wait Until Page Contains Element    xpath=//*[text()="Contact Information"]/ancestor::section[1]//span[text()="Phone"]/ancestor::div[1]//input
+    Input Text    xpath=//*[text()="Contact Information"]/ancestor::section[1]//span[text()="Phone"]/ancestor::div[1]//input    ${PhoneNum}
     Click Save Button
+    Wait Until Page Contains Element    xpath=//span[contains(., " was saved.")]
+    Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
     Go Back Click
 
-Create A Case For That Contact
+Create a Case for the Contact
     Navi To Case App
     Click New Button
     Wait Until Page Contains Element    xpath=//span[text()="Save"]
     #Input Name
     Wait Exists And Click Element    xpath=//span[text()="Contact Name"]/parent::*/following-sibling::div[1]/input
-    Wait Until Page Contains Element    xpath=//ul[@class="results"]/li[1]/a[1]
-    Click Element    xpath=//a[text()="${FirstName} ${LastName}"][1]
+    Wait Exists And Click Element    xpath=//a[text()="${FirstName} ${LastName}"][1]
     #Input Case Origin
     Wait Exists And Click Element    xpath=//span[text()="Case Origin"]/parent::*/following-sibling::select[1]
     Click Element    xpath=//option[text()="Phone"]
     Click Save Button
+    Wait Until Page Contains Element    xpath=//span[contains(., " was created.")]
+    Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
     Go Back Click
 
-Update That Case
+Update a Case
     Navi To Case App
     Click Mycases
     #Click Case
     Wait Exists And Click Element    xpath=((//a[text()="${FirstName} ${LastName}"])[1]/parent::*/parent::*//a)[1]
     Wait Entity Loading
     Click Edit Button
-    #Input Name
-    Wait Exists And Click Element    xpath=//h3[text()="Web Information"]/parent::*//span[text()="Web Phone"]/../../input
-    Input Text    //h3[text()="Web Information"]/parent::*//span[text()="Web Phone"]/../../input    ${PhoneNum}
+    #Input web phone
+    Wait Exists And Click Element    xpath=//*[text()="Web Information"]/ancestor::section[1]//span[text()="Web Phone"]/../../input
+    Input Text    xpath=//*[text()="Web Information"]/ancestor::section[1]//span[text()="Web Phone"]/../../input    ${PhoneNum}
     Click Save Button
+    Wait Until Page Contains Element    xpath=//span[contains(., " was saved.")]
+    Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
     Go Back Click
 
-Retrieve That Case
+Retrieve a Case
     Navi To Case App
     Click Mycases
     #Click Case
-    Wait Exists And Click Element    xpath=(//a[text()="${FirstName} ${LastName}"])[1]
+    Wait Exists And Click Element    xpath=((//a[text()="${FirstName} ${LastName}"])[1]/parent::*/parent::*//a)[1]
     Wait Entity Loading
     #Check result
     Wait Until Page Contains Element    xpath=//*[text()="${FirstName} ${LastName}"]
     Go Back Click
 
-Delete That Case
+Delete a Case
     Navi To Case App
     Click Mycases
     #Click Case
     Wait Exists And Click Element    xpath=((//a[text()="${FirstName} ${LastName}"])[1]/parent::*/parent::*//a)[1]
     Wait Entity Loading
     Click Delete Button
-    #Confirm Delete
-    Click Element    xpath=//button[@title="Delete" and @data-action="Delete"]
+    Wait Until Page Contains Element    xpath=//span[contains(., " was deleted.")]
 
-Check Contact
+Retrieve a Contact
     Navi To Contact App
     Click Mycontacts
     #Click Contact
@@ -106,13 +141,11 @@ Check Contact
     Wait Until Page Contains Element    xpath=//*[text()="${FirstName} ${LastName}"]
     Go Back Click
 
-Delete The Contact
+Delete a Contact
     Navi To Contact App
     Click Mycontacts
     #Click Case
     Wait Exists And Click Element    xpath=(//a[text()="${FirstName} ${LastName}"])[1]
     Wait Entity Loading
     Click Delete Button
-    #Confirm Delete
-    Click Element    xpath=//button[@title="Delete" and @data-action="Delete"]
-    Wait Until Page Contains Element    //span[text()="You deleted the contact."]
+    Wait Until Page Contains Element    xpath=//span[contains(., " was deleted.")]
