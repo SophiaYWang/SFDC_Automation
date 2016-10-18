@@ -17,6 +17,31 @@ ${NameTitle}      Mr.
 ${PhoneNum}       4008123123
 
 *** Test Cases ***
+Loop test
+    : FOR    ${i}    IN RANGE    0    5
+    \    ${passed}=    Run Keyword And Return Status    Create a Case
+    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
+    \    ${passed}=    Run Keyword And Return Status    Update a Case
+    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
+    \    ${passed}=    Run Keyword And Return Status    Retrieve a Case
+    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
+    \    ${passed}=    Run Keyword And Return Status    Delete a Case
+    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
+    \    Log    "Loop Iteration ${i} done!"
+
+Create
+    Run Keyword And Continue On Failure    Create a Case
+
+Update
+    Run Keyword And Continue On Failure    Update a Case
+
+Retrieve
+    Run Keyword And Continue On Failure    Retrieve a Case
+
+Delete
+    Run Keyword And Continue On Failure    Delete a Case
+
+*** Keywords ***
 Create a Case
     Navi To Case App
     Click New Button
@@ -65,5 +90,3 @@ Delete a Case
     Wait Entity Loading
     Click Delete Button
     Wait Until Page Contains Element    xpath=//span[contains(., " was deleted.")]
-
-*** Keywords ***

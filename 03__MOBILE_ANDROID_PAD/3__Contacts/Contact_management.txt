@@ -10,8 +10,11 @@ ${PLATFORM_NAME}    android
 ${PLATFORM_VERSION}    6.0.1
 ${UDID}           1171a8350514dceb
 ${BROWSER_NAME}    chrome
-${TIME_OUT}       30S
-${WAIT_STEP}      5s
+${TIME_OUT}       60S
+${FirstName}      Samsung
+${LastName}       PadWhite
+${NameTitle}      Mr.
+${PhoneNum}       4008123123
 
 *** Test Cases ***
 Create a Contact

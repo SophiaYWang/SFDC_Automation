@@ -85,6 +85,10 @@ Wait Entity Loading
 
 Wait Exists And Click Element
     [Arguments]    @{locator}
+    # Wait and frontend loading exception handling
     Wait Until Page Contains Element    @{locator}
     Wait Until Element Is Visible    @{locator}
-    Click Element    @{locator}
+    : FOR    ${i}    IN RANGE    1    3
+    \    ${result}    ${returnvalue}    Run Keyword And Ignore Error    Click Element    @{locator}
+    \    Exit For Loop If    '${result}'=='PASS' or """StaleElementReferenceException""" not in """${returnvalue}"""
+    \    Sleep    0.5
