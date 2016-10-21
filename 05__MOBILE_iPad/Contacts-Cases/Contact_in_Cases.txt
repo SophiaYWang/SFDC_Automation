@@ -8,7 +8,8 @@ Resource          ../resource.txt
 
 *** Variables ***
 ${FirstName}      iOS
-${LastName}       pad
+${LastName}       pad_C_in_C
+${NameTitle}      Mr.
 ${PhoneNum}       123456789
 ${REMOTE_URL}     http://172.31.162.198:4723/wd/hub
 ${PLATFORM_NAME}    ios
@@ -25,31 +26,72 @@ ${WAIT_STEP}      5s
 
 *** Test Cases ***
 Loop test
-    : FOR    ${i}    IN RANGE    0    5
-    \    ${passed}=    Run Keyword And Return Status    Create a Case
-    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
-    \    ${passed}=    Run Keyword And Return Status    Update a Case
-    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
-    \    ${passed}=    Run Keyword And Return Status    Retrieve a Case
-    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
-    \    ${passed}=    Run Keyword And Return Status    Delete a Case
-    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
-    \    Log    "Loop Iteration ${i} done!"
+    : FOR    ${i}    IN RANGE    1    50
+    \    Run Keyword And Continue On Failure    Create Contact
+    \    Run Keyword And Continue On Failure    Update a Contact
+    \    Run Keyword And Continue On Failure    Create a Case for the Contact
+    \    Run Keyword And Continue On Failure    Update a Case
+    \    Run Keyword And Continue On Failure    Retrieve a Case
+    \    Run Keyword And Continue On Failure    Delete a Case
+    \    Run Keyword And Continue On Failure    Retrieve a Contact
+    \    Run Keyword And Continue On Failure    Delete a Contact
 
-Create
-    Run Keyword And Continue On Failure    Create a Case
+Create Customer
+    Run Keyword And Continue On Failure    Create a Contact
 
-Update
+Update Customer
+    Run Keyword And Continue On Failure    Update a Contact
+
+Create a Case For The Customer
+    Run Keyword And Continue On Failure    Create a Case for the Contact
+
+Update Case
     Run Keyword And Continue On Failure    Update a Case
 
-Retrieve
+Check Case
     Run Keyword And Continue On Failure    Retrieve a Case
 
-Delete
+Delete Case
     Run Keyword And Continue On Failure    Delete a Case
 
-*** Keywords ***
-Create a Case
+Check Customer
+    Run Keyword And Continue On Failure    Retrieve a Contact
+
+Delete Customer
+    Run Keyword And Continue On Failure    Delete a Contact
+
+*** Keyword ***
+Create a Contact
+    Navi To Contact App
+    Click New Button
+    Wait Entity Loading
+    Wait Until Page Contains Element    xpath=//span[text()="Save"]
+    #Input Name
+    Wait Exists And Click Element    xpath=//span[text()="Name"]/parent::*/parent::*//select
+    Wait Exists And Click Element    xpath=//span[text()="Name"]/parent::*/parent::*//option[text()="${NameTitle}"]
+    Input Text    xpath=//input[@placeholder="First Name"]    ${FirstName}
+    Wait Exists And Click Element    xpath=//input[@placeholder="Last Name"]
+    Input Text    xpath=//input[@placeholder="Last Name"]    ${LastName}
+    Click Save Button
+    Wait Until Page Contains Element    xpath=//span[contains(., " was created.")]
+    Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
+    Go Back Click
+
+Update a Contact
+    Navi To Contact App
+    Click Mycontacts
+    #Click Case
+    Wait Exists And Click Element    xpath=(//a[text()="${FirstName} ${LastName}"])[1]
+    Wait Entity Loading
+    Click Edit Button
+    Wait Until Page Contains Element    xpath=//*[text()="Contact Information"]/ancestor::section[1]//span[text()="Phone"]/ancestor::div[1]//input
+    Input Text    xpath=//*[text()="Contact Information"]/ancestor::section[1]//span[text()="Phone"]/ancestor::div[1]//input    ${PhoneNum}
+    Click Save Button
+    Wait Until Page Contains Element    xpath=//span[contains(., " was saved.")]
+    Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
+    Go Back Click
+
+Create a Case for the Contact
     Navi To Case App
     Click New Button
     Wait Until Page Contains Element    xpath=//span[text()="Save"]
@@ -94,6 +136,25 @@ Delete a Case
     Click Mycases
     #Click Case
     Wait Exists And Click Element    xpath=((//a[text()="${FirstName} ${LastName}"])[1]/parent::*/parent::*//a)[1]
+    Wait Entity Loading
+    Click Delete Button
+    Wait Until Page Contains Element    xpath=//span[contains(., " was deleted.")]
+
+Retrieve a Contact
+    Navi To Contact App
+    Click Mycontacts
+    #Click Contact
+    Wait Exists And Click Element    xpath=(//a[text()="${FirstName} ${LastName}"])[1]
+    Wait Entity Loading
+    #Check result
+    Wait Until Page Contains Element    xpath=//*[text()="${FirstName} ${LastName}"]
+    Go Back Click
+
+Delete a Contact
+    Navi To Contact App
+    Click Mycontacts
+    #Click Case
+    Wait Exists And Click Element    xpath=(//a[text()="${FirstName} ${LastName}"])[1]
     Wait Entity Loading
     Click Delete Button
     Wait Until Page Contains Element    xpath=//span[contains(., " was deleted.")]

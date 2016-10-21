@@ -1,0 +1,110 @@
+*** Settings ***
+Suite Setup       Run Keywords    Open Application    ${REMOTE_URL}    platformName=${PLATFORM_NAME}    PLATFORM_VERSION=${PLATFORM_VERSION}    deviceName=${DEVICE_NAME}    udid=${UDID}
+...               browserName=${BROWSER_NAME}    bundleId=${BUNDLEID}    appType=${APPTYPE}    web.url=${web.url}    interKeyDealy=100    autoDismissAlerts=true    sendKeyStrategy=oneByOne
+...               AND    Mobile Cases test environment initialization
+Suite Teardown    Clean up mobile test environment
+Library           AppiumLibrary    timeout=${TIME_OUT}
+Resource          ../resource.txt
+
+*** Variables ***
+${FirstName}      iOS
+${LastName}       pad
+${NameTitle}      Ms.
+${PhoneNum}       123456789
+${REMOTE_URL}     http://172.31.162.198:4723/wd/hub
+${PLATFORM_NAME}    iOS
+${PLATFORM_VERSION}    9.3
+${DEVICE_NAME}    iphone 6 plus
+#${UDID}          e8736064445aaae74c9c16d50276af3de4796bf0    #iphone6s
+${UDID}           7f236b90eb80091de9f9681883f197fb5cfbddbc    #ipad pro
+${BUNDLEID}       com.pwc.REX
+${APPTYPE}        web
+${web.url}        http://login.salesforce.com
+${BROWSER_NAME}    safari
+${TIME_OUT}       30S
+${WAIT_STEP}      5s
+
+*** Test Cases ***
+Loop test
+    : FOR    ${i}    IN RANGE    0    10
+    \    ${passed}=    Run Keyword And Return Status    Create a Contact
+    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
+    \    ${passed}=    Run Keyword And Return Status    Update a Contact
+    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
+    \    ${passed}=    Run Keyword And Return Status    Retrieve a Contact
+    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
+    \    ${passed}=    Run Keyword And Return Status    Delete a Contact
+    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
+    \    Log    "Loop Iteration ${i} done!"
+
+Create
+    Run Keyword And Continue On Failure    Create a Contact
+
+Update
+    Run Keyword And Continue On Failure    Update a Contact
+
+Retrieve
+    Run Keyword And Continue On Failure    Retrieve a Contact
+
+Delete
+    Run Keyword And Continue On Failure    Delete a Contact
+
+*** Keywords ***
+Create a Contact
+    Navi To Contact App
+    Click New Button
+    Wait Entity Loading
+    Wait Until Page Contains Element    xpath=//span[text()="Save"]
+    #Input phone
+    Wait Until Page Contains Element    xpath=//*[text()="Contact Information"]/ancestor::section[1]//span[text()="Phone"]/ancestor::div[1]//input
+    Input Text    xpath=//*[text()="Contact Information"]/ancestor::section[1]//span[text()="Phone"]/ancestor::div[1]//input    ${PhoneNum}
+    #Input Name
+    Wait Exists And Click Element    xpath=//span[text()="Name"]/parent::*/parent::*//select
+    Wait Exists And Click Element    xpath=//span[text()="Name"]/parent::*/parent::*//option[text()="${NameTitle}"]
+    Sleep    5
+    Wait Exists And Click Element    xpath=//input[@placeholder="Last Name"]
+    Input Text    xpath=//input[@placeholder="Last Name"]    ${LastName}
+    Sleep    5
+    Wait Exists And Click Element    xpath=//input[@placeholder="First Name"]
+    Input Text    xpath=//input[@placeholder="First Name"]    ${FirstName}
+    Sleep    5
+    Click Save Button
+    Wait Until Page Contains Element    xpath=//span[contains(., " was created.")]
+    Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
+    Go Back Click
+
+Update a Contact
+    Navi To Contact App
+    Click Mycontacts
+    #Click Case
+    Wait Exists And Click Element    xpath=(//a[text()="${FirstName} ${LastName}"])[1]
+    Wait Entity Loading
+    Click Edit Button
+    Wait Exists And Click Element    xpath=//*[text()="Contact Information"]/ancestor::section[1]//span[text()="Phone"]/ancestor::div[1]//input
+    Clear Text    xpath=//*[text()="Contact Information"]/ancestor::section[1]//span[text()="Phone"]/ancestor::div[1]//input
+    #Execute Javascript    document.evaluate('//*[text()="Contact Information"]/ancestor::section[1]//span[text()="Phone"]/ancestor::div[1]//input', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.value = '123456789'
+    Input text    xpath=//*[text()="Contact Information"]/ancestor::section[1]//span[text()="Phone"]/ancestor::div[1]//input    "${PhoneNum}"
+    Click Save Button
+    Wait Until Page Contains Element    xpath=//span[contains(., " was saved.")]
+    Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
+    Sleep    60
+    Go Back Click
+
+Retrieve a Contact
+    Navi To Contact App
+    Click Mycontacts
+    #Click Contact
+    Wait Exists And Click Element    xpath=(//a[text()="${FirstName} ${LastName}"])[1]
+    Wait Entity Loading
+    #Check result
+    Wait Until Page Contains Element    xpath=//*[text()="${FirstName} ${LastName}"]
+    Go Back Click
+
+Delete a Contact
+    Navi To Contact App
+    Click Mycontacts
+    #Click Case
+    Wait Exists And Click Element    xpath=(//a[text()="${FirstName} ${LastName}"])[1]
+    Wait Entity Loading
+    Click Delete Button
+    Wait Until Page Contains Element    xpath=//span[contains(., " was deleted.")]

@@ -1,10 +1,6 @@
 *** Settings ***
 Resource          ../user_credential.txt
 
-*** Variables ***
-${TIME_OUT}       30S
-${WAIT_STEP}      5s
-
 *** Keywords ***
 Clean up mobile test environment
     Close All Applications
@@ -14,7 +10,9 @@ Click Delete Button
     Wait Until Page Contains Element    xpath=//div[@id="actionBarItem_Delete"]/button
     Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
     Click Element    xpath=//div[@id="actionBarItem_Delete"]/button
-    Wait Until Page Contains Element    xpath=//button[@title="Delete" and @data-action="Delete"]
+    Wait Until Page Contains Element    xpath=//button[@title="Delete"]
+    Click Element    xpath=//button[@title="Delete"]
+    Wait Until Page Contains Element    xpath=//span[contains(., "was deleted.")]
 
 Click Edit Button
     #Click [Edit]
@@ -23,19 +21,34 @@ Click Edit Button
     Click Element    xpath=//div[@id="actionBarItem_Edit"]/button
     Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
 
+Click Mycases
+    Wait Until Page Contains Element    //select[@name="listViewPicklist"]
+    Wait Until Page Contains Element    //select[@name="listViewPicklist"]
+    Click Element    //select[@name="listViewPicklist"]
+    Wait Until Page Contains Element    //option[text()="My Cases"]
+    Click Element    //option[text()="My Cases"]
+
+Click Mycontacts
+    #In "Contacts" tab
+    Wait Until Page Contains Element    //select[@name="listViewPicklist"]
+    Wait Until Page Contains Element    //select[@name="listViewPicklist"]
+    Click Element    //select[@name="listViewPicklist"]
+    Wait Until Page Contains Element    //option[text()="My Contacts"]
+    Click Element    //option[text()="My Contacts"]
+
 Click New Button
-    Wait Until Page Contains Element    //span[text()="New"]
-    Click Element    //span[text()="New"]
+    Wait Until Page Contains Element    //span[text()="New"]/parent::button
+    Click Element    //span[text()="New"]/parent::button
     Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
 
 Click Save Button
-    Wait Until Page Contains Element    xpath=//span[text()="Save"]
-    Click Element    xpath=//span[text()="Save"]
-    Wait Until Page Contains Element    //div[@class="placeholder detail "]
+    Wait Until Page Contains Element    xpath=//span[text()="Save"]/parent::button
+    Click Element    xpath=//span[text()="Save"]/parent::button
     Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
 
 Go Back Click
     Wait Until Page Contains Element    xpath=//a[./span[text()="Back"]]
+    Wait Until Element Is Visible    xpath=//a[./span[text()="Back"]]
     Click Element    //a[./span[text()="Back"]]
 
 Mobile Cases test environment initialization
@@ -49,22 +62,30 @@ Mobile Cases test environment initialization
     Wait Until Page Contains Element    //span[text()="Toggle SideBar"]    timeout=600s
 
 Navi To Case App
-    Wait Until Page Contains Element    //a[@title="Toggle SideBar"]    timeout=600s
+    Wait Until Page Contains Element    //a[@title="Toggle SideBar"]
     Click Element    //a[@title="Toggle SideBar"]
     Wait Until Page Contains Element    xpath=//div[text()="Cases"]
     Click Element    xpath=//div[text()="Cases"]
     #Wait until [New] button exists
-    Wait Until Page Contains Element    class=buttonItem
+    Wait Until Page Contains Element    xpath=//select
 
-Refresh MyCases
-    Wait Exits and Click Element    //h2[text()="My Cases"]
-    #Wait until "my cases exist"
-    Wait Until Page Contains Element    //div[@class="dark uiAbstractList forceRecordLayout forceFilterListDeprecated hiddenContent"]
-    Wait Exits and Click Element    xpath=(//span[text()="My Cases"])[2]
-    #Wait until refresh complete
-    Wait Until Page Contains Element    //div[@class="dark uiAbstractList forceRecordLayout forceFilterListDeprecated"]
+Navi To Contact App
+    Wait Until Page Contains Element    //a[@title="Toggle SideBar"]
+    Click Element    //a[@title="Toggle SideBar"]
+    Wait Until Page Contains Element    xpath=//div[text()="Contacts"]
+    Click Element    xpath=//div[text()="Contacts"]
+    #Wait until [New] button exists
+    Wait Until Page Contains Element    xpath=//select
 
-Wait Exits and Click Element
+Wait Entity Loading
+    Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
+
+Wait Exists And Click Element
     [Arguments]    @{locator}
+    # Wait and frontend loading exception handling
     Wait Until Page Contains Element    @{locator}
-    Click Element    @{locator}
+    Wait Until Element Is Visible    @{locator}
+    : FOR    ${i}    IN RANGE    1    3
+    \    ${result}    ${returnvalue}    Run Keyword And Ignore Error    Click Element    @{locator}
+    \    Exit For Loop If    '${result}'=='PASS' or """StaleElementReferenceException""" not in """${returnvalue}"""
+    \    Sleep    0.5
