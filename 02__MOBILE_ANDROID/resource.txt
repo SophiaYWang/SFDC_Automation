@@ -53,14 +53,15 @@ Navi To Case App
     Wait Until Page Contains Element    class=buttonItem
 
 Refresh MyCases
-    Wait Exits and Click Element    //h2[text()="My Cases"]
-    #Wait until "my cases exist"
-    Wait Until Page Contains Element    //div[@class="dark uiAbstractList forceRecordLayout forceFilterListDeprecated hiddenContent"]
-    Wait Exits and Click Element    xpath=(//span[text()="My Cases"])[2]
+    Wait Exits and Click Element    //*[text()="My Cases"]
+    #pull refresh
+    Swipe    100    100    100    500    500
+    Wait Until Page Contains Element    //span[text()="Refreshing"]
     #Wait until refresh complete
-    Wait Until Page Contains Element    //div[@class="dark uiAbstractList forceRecordLayout forceFilterListDeprecated"]
+    Wait Until Page Contains Element    //span[text()="Pull to Refresh"]
 
 Wait Exits and Click Element
     [Arguments]    @{locator}
     Wait Until Page Contains Element    @{locator}
+    Wait Until Element Is Visible    @{locator}
     Click Element    @{locator}

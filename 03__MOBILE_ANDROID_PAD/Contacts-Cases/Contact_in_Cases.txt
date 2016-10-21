@@ -11,8 +11,8 @@ ${PLATFORM_VERSION}    6.0.1
 ${UDID}           1171a8350514dceb
 ${BROWSER_NAME}    chrome
 ${TIME_OUT}       60S
-${FirstName}      New
-${LastName}       User_C_in_C
+${FirstName}      New_User_C_in_C
+${LastName}       android
 ${NameTitle}      Mr.
 ${PhoneNum}       4008123123
 

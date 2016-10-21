@@ -8,8 +8,8 @@ Resource          ../resource.txt
 Resource          ../../user_credential.txt
 
 *** Variables ***
-${FirstName}      Samsung
-${LastName}       S6Black
+${FirstName}      phone1
+${LastName}       android
 ${PhoneNum}       123456789
 ${REMOTE_URL}     http://localhost:4723/wd/hub
 ${PLATFORM_NAME}    android
