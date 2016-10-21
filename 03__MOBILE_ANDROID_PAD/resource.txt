@@ -56,9 +56,9 @@ Mobile Cases test environment initialization
     ...    noreset=true
     Go To Url    http://login.salesforce.com
     Wait Until Page Contains Element    //*[@id="username"]    timeout=600s
-    Input Text    //*[@id="username"]    ${WEB_USERNAME}
+    Input Text    //*[@id="username"]    ${AN_USERNAME}
     Wait Until Page Contains Element    //*[@id="password"]    timeout=3
-    Input Password    //*[@id="password"]    ${WEB_PASSWORD}
+    Input Password    //*[@id="password"]    ${AN_PASSWORD}
     Sleep    3s
     Wait Until Page Contains Element    //*[@id="Login"]
     Click Element    //*[@id="Login"]

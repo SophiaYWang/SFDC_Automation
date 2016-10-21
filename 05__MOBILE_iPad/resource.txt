@@ -13,6 +13,7 @@ Click Delete Button
     Wait Until Page Contains Element    xpath=//button[@title="Delete"]
     Click Element    xpath=//button[@title="Delete"]
     Wait Until Page Contains Element    xpath=//span[contains(., "was deleted.")]
+    Wait Until Page Does Not Contain Element    xpath=//span[contains(., "was deleted.")]
 
 Click Edit Button
     #Click [Edit]
@@ -54,9 +55,9 @@ Go Back Click
 Mobile Cases test environment initialization
     Go To Url    http://login.salesforce.com
     Wait Until Page Contains Element    //*[@id="username"]    timeout=600s
-    Input Text    //*[@id="username"]    ${USERNAME}
+    Input Text    //*[@id="username"]    ${IOS_USERNAME}
     Wait Until Page Contains Element    //*[@id="password"]    timeout=3s
-    Input Password    //*[@id="password"]    ${PASSWORD}
+    Input Password    //*[@id="password"]    ${IOS_PASSWORD}
     Wait Until Page Contains Element    //*[@id="Login"]
     Click Element    //*[@id="Login"]
     Wait Until Page Contains Element    //span[text()="Toggle SideBar"]    timeout=600s

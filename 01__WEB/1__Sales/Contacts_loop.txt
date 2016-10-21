@@ -10,18 +10,30 @@ ${FirstName}      Web
 ${LastName}       Automation
 ${PhoneNum}       123456789
 ${browser}        ff
-${speed}          0 seconds
+${speed}          2 seconds
 
 *** Test Cases ***
 Loop Test
-    : FOR    ${index}    IN RANGE    1    10
-    \    Run Keyword And Continue On Failure    Create Contact
-    \    Run Keyword And Continue On Failure    Update Contact
-    \    Run Keyword And Continue On Failure    Retrieve Contact
-    \    Run Keyword And Continue On Failure    Delete Contact
+    : FOR    ${index}    IN RANGE    1    2
+    \    Run Keyword And Continue On Failure    Create a Contact
+    \    Run Keyword And Continue On Failure    Update a Contact
+    \    Run Keyword And Continue On Failure    Retrieve a Contact
+    \    Run Keyword And Continue On Failure    Delete a Contact
+
+Create Contact
+    Run Keyword And Continue On Failure    Create a Contact
+
+Update Contact
+    Run Keyword And Continue On Failure    Update a Contact
+
+Check Contact
+    Run Keyword And Continue On Failure    Retrieve a Contact
+
+Delete Contact
+    Run Keyword And Continue On Failure    Delete a Contact
 
 *** Keywords ***
-Create Contact
+Create a Contact
     Click Element    //*[@id="Contact_Tab"]/a
     Wait And Click Element    //*[@id="hotlist"]/table/tbody/tr/td[2]/input    30s
     Input Text    //*[@id="name_firstcon2"]    ${FirstName}
@@ -29,7 +41,7 @@ Create Contact
     Click Button    //*[@id="topButtonRow"]/input[1]
     Wait Until Page Contains Element    //*[@id="Contact_Tab"]/a    timeout=30s
 
-Update Contact
+Update a Contact
     Click Element    //*[@id="Contact_Tab"]/a
     Wait Until Page Contains Element    //*[@id="fcf"]    timeout=30s
     Select From List By Label    //*[@id="fcf"]    New This Week
@@ -42,7 +54,7 @@ Update Contact
     Click Button    name=save
     Wait Until Page Contains Element    //*[@id="Contact_Tab"]/a    timeout=30s
 
-Retrieve Contact
+Retrieve a Contact
     Click Element    //*[@id="Contact_Tab"]/a
     Wait Until Page Contains Element    //*[@id="fcf"]    timeout=30s
     Select From List By Label    //*[@id="fcf"]    New This Week
@@ -52,7 +64,7 @@ Retrieve Contact
     Page Should Contain    ${FirstName}
     Wait Until Page Contains Element    //*[@id="Contact_Tab"]/a    timeout=30s
 
-Delete Contact
+Delete a Contact
     Click Element    //*[@id="Contact_Tab"]/a
     Wait Until Page Contains Element    //*[@id="fcf"]    timeout=30s
     Select From List By Label    //*[@id="fcf"]    New This Week

@@ -37,9 +37,9 @@ Go Back Click
 Mobile Cases test environment initialization
     Go To Url    http://login.salesforce.com
     Wait Until Page Contains Element    //*[@id="username"]    timeout=600s
-    Input Text    //*[@id="username"]    ${USERNAME}
+    Input Text    //*[@id="username"]    ${AN_USERNAME}
     Wait Until Page Contains Element    //*[@id="password"]    timeout=3s
-    Input Password    //*[@id="password"]    ${PASSWORD}
+    Input Password    //*[@id="password"]    ${AN_PASSWORD}
     Wait Until Page Contains Element    //*[@id="Login"]
     Click Element    //*[@id="Login"]
     Wait Until Page Contains Element    //span[text()="Toggle SideBar"]    timeout=600s

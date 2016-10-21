@@ -14,8 +14,8 @@ ${REMOTE_URL}     http://172.31.162.198:4723/wd/hub
 ${PLATFORM_NAME}    ios
 ${PLATFORM_VERSION}    9.3
 ${DEVICE_NAME}    iphone
-#${UDID}          e8736064445aaae74c9c16d50276af3de4796bf0    #iphone6s
-${UDID}           7f236b90eb80091de9f9681883f197fb5cfbddbc    #ipad pro
+#ipad pro
+${UDID}           7f236b90eb80091de9f9681883f197fb5cfbddbc
 ${BUNDLEID}       com.pwc.REX
 ${APPTYPE}        web
 ${web.url}        http://login.salesforce.com
@@ -62,6 +62,7 @@ Create a Case
     Click Save Button
     Wait Until Page Contains Element    xpath=//span[contains(., " was created.")]
     Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
+    Wait Until Page Does Not Contain Element    xpath=//span[contains(., " was created.")]
     Go Back Click
 
 Update a Case
@@ -77,6 +78,7 @@ Update a Case
     Click Save Button
     Wait Until Page Contains Element    xpath=//span[contains(., " was saved.")]
     Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
+    Wait Until Page Does Not Contain Element    xpath=//span[contains(., " was saved.")]
     Go Back Click
 
 Retrieve a Case
@@ -96,4 +98,3 @@ Delete a Case
     Wait Exists And Click Element    xpath=((//a[text()="${FirstName} ${LastName}"])[1]/parent::*/parent::*//a)[1]
     Wait Entity Loading
     Click Delete Button
-    Wait Until Page Contains Element    xpath=//span[contains(., " was deleted.")]
