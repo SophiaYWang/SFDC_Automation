@@ -1,5 +1,6 @@
 *** Settings ***
 Resource          ../user_credential.txt
+Library           AppiumLibrary
 
 *** Keywords ***
 Clean up mobile test environment
@@ -10,7 +11,7 @@ Click Delete Button
     Wait Until Page Contains Element    xpath=//div[@id="actionBarItem_Delete"]/button
     Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
     Click Element    xpath=//div[@id="actionBarItem_Delete"]/button
-    Wait Until Page Contains Element    xpath=//button[@title="Delete" and @data-action="Delete"]
+    Wait Until Page Contains Element    xpath=//button[@title="Delete" and @data-aura-class="uiButton forceActionButton"]
 
 Click Edit Button
     #Click [Edit]
@@ -53,12 +54,12 @@ Navi To Case App
     Wait Until Page Contains Element    class=buttonItem
 
 Refresh MyCases
-    Wait Exits and Click Element    //*[text()="My Cases"]
-    #pull refresh
-    Swipe    100    100    100    500    500
-    Wait Until Page Contains Element    //span[text()="Refreshing"]
+    # In my cases page
+    #Wait until "my cases exist"
+    Wait Exits and Click Element    //a[@class="banner hidden offlineBanner forceFilterList"]
+    #Wait Exits and Click Element    xpath=//span[text()="My Cases"]
     #Wait until refresh complete
-    Wait Until Page Contains Element    //span[text()="Pull to Refresh"]
+    Wait Exits and Click Element    //a[@class="banner hidden offlineBanner forceFilterList hiddenContent"]
 
 Wait Exits and Click Element
     [Arguments]    @{locator}
