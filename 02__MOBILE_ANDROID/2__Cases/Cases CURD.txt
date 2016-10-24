@@ -57,7 +57,7 @@ Create a Case
     #Input Case Origin
     Wait Exits and Click Element    xpath=//span[text()="Case Origin"]/parent::*/following-sibling::select[1]
     Switch To Context    NATIVE_APP
-    Click Element    name=Phone
+    Wait Exits and Click Element    name=Phone
     Switch To Context    WEBVIEW_1
     Click Save Button
     Wait Until Page Contains Element    //span[contains(., " was created.")]
