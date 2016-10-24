@@ -14,8 +14,8 @@ ${PhoneNum}       123456789
 ${REMOTE_URL}     http://localhost:4723/wd/hub
 ${PLATFORM_NAME}    android
 ${PLATFORM_VERSION}    6.0.1
-${DEVICE_NAME}    dd53f7d6
-${UDID}           dd53f7d6
+${DEVICE_NAME}    04157df42461c608
+${UDID}           04157df42461c608
 ${BROWSER_NAME}    chrome
 ${TIME_OUT}       30S
 ${WAIT_STEP}      5s
@@ -60,8 +60,9 @@ Create a Case
     Click Element    name=Phone
     Switch To Context    WEBVIEW_1
     Click Save Button
-    Wait Until Page Contains Element    xpath=//span[contains(., " was created.")]
+    Wait Until Page Contains Element    //span[contains(., " was created.")]
     Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
+    Wait Until Page Does Not Contain Element    //span[contains(., " was created.")]
     Go Back Click
     Log    "Creat a Case succeeded"
 
@@ -76,8 +77,9 @@ Update a Case
     Wait Until Page Does Not Contain    //div[@class="forceModalSpinner"]
     Click Edit Button
     Click Save Button
-    Wait Until Page Contains Element    xpath=//span[contains(., " was saved.")]
+    Wait Until Page Contains Element    //span[contains(., " was saved.")]
     Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
+    Wait Until Page Does Not Contain Element    //span[contains(., " was saved.")]
     Go Back Click
     Go Back Click
     Log    "Update a Case succeeded"
@@ -102,7 +104,8 @@ Delete a Case
     Click Delete Button
     #Confirm Delete
     Click Element    xpath=//button[@title="Delete" and @data-aura-class="uiButton forceActionButton"]
-    Wait Until Page Contains Element    xpath=//span[contains(., " was deleted.")]
+    Wait Until Page Contains Element    //span[contains(., " deleted.")]
     Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
+    Wait Until Page Does Not Contain Element    //span[contains(., " deleted.")]
     Go Back Click
     Log    "Delete a Case succeeded"
