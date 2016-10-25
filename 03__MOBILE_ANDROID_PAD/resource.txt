@@ -9,7 +9,7 @@ Click Delete Button
     #Click [Delete]
     Wait Until Page Contains Element    xpath=//div[@id="actionBarItem_Delete"]/button
     Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
-    Click Element    xpath=//div[@id="actionBarItem_Delete"]/button
+    Wait Exists And Click Element    xpath=//div[@id="actionBarItem_Delete"]/button
     Wait Until Page Contains Element    xpath=//button[@title="Delete"]
     Click Element    xpath=//button[@title="Delete"]
     Wait Until Page Contains Element    xpath=//span[contains(., "was deleted.")]
