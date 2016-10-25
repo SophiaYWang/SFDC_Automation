@@ -7,8 +7,8 @@ Library           AppiumLibrary    timeout=${TIME_OUT}
 Resource          ../resource.txt
 
 *** Variables ***
-${FirstName}      Apple
-${LastName}       iphone6_white
+${FirstName}      phone1
+${LastName}       ios
 ${PhoneNum}       123456789
 ${REMOTE_URL}     http://172.31.163.94:4723/wd/hub
 ${PLATFORM_NAME}    ios

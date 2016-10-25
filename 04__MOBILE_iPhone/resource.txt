@@ -41,8 +41,10 @@ Go Back Click
 Mobile Cases test environment initialization
     Go To Url    http://login.salesforce.com
     Wait Until Page Contains Element    //*[@id="username"]    timeout=600s
+    Clear Text    //*[@id="username"]
     Input Text    //*[@id="username"]    ${IOS_USERNAME}
     Wait Until Page Contains Element    //*[@id="password"]    timeout=3s
+    Clear Text    //*[@id="password"]
     Input Password    //*[@id="password"]    ${IOS_PASSWORD}
     Wait Until Page Contains Element    //*[@id="Login"]
     Click Element    //*[@id="Login"]
