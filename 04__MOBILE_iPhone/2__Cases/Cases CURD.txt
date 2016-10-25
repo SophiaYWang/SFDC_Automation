@@ -10,12 +10,14 @@ Resource          ../resource.txt
 ${FirstName}      Apple
 ${LastName}       iphone6_white
 ${PhoneNum}       123456789
-${REMOTE_URL}     http://172.31.162.198:4723/wd/hub
+${REMOTE_URL}     http://172.31.163.94:4723/wd/hub
 ${PLATFORM_NAME}    ios
 ${PLATFORM_VERSION}    9.3
 ${DEVICE_NAME}    iphone
 #iphone 6s
-${UDID}           e8736064445aaae74c9c16d50276af3de4796bf0
+#${UDID}          e8736064445aaae74c9c16d50276af3de4796bf0
+#iphone 6+
+${UDID}           60eef3f286cf3962ffb68e661cfbc21ebe67bf10
 ${BUNDLEID}       com.pwc.REX
 ${APPTYPE}        web
 ${web.url}        http://login.salesforce.com
