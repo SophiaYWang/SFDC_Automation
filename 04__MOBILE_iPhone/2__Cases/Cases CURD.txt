@@ -8,13 +8,16 @@ Resource          ../resource.txt
 
 *** Variables ***
 ${FirstName}      phone1
-${LastName}       ios
+${LastName}       iOS
 ${PhoneNum}       123456789
+#Appledev 071
 ${REMOTE_URL}     http://172.31.163.94:4723/wd/hub
+#Mary
+#${REMOTE_URL}    http://172.31.161.200:4723/wd/hub
 ${PLATFORM_NAME}    ios
 ${PLATFORM_VERSION}    9.3
 ${DEVICE_NAME}    iphone
-#iphone 6s
+#iphone 6
 #${UDID}          e8736064445aaae74c9c16d50276af3de4796bf0
 #iphone 6+
 ${UDID}           60eef3f286cf3962ffb68e661cfbc21ebe67bf10
@@ -22,12 +25,12 @@ ${BUNDLEID}       com.pwc.REX
 ${APPTYPE}        web
 ${web.url}        http://login.salesforce.com
 ${BROWSER_NAME}    safari
-${TIME_OUT}       30S
+${TIME_OUT}       60S
 ${WAIT_STEP}      5s
 
 *** Test Cases ***
 Loop test
-    : FOR    ${i}    IN RANGE    0    5
+    : FOR    ${i}    IN RANGE    0    50
     \    ${passed}=    Run Keyword And Return Status    Create a Case
     \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
     \    ${passed}=    Run Keyword And Return Status    Update a Case
@@ -63,6 +66,8 @@ Create a Case
     Wait Exits and Click Element    xpath=//span[text()="Case Origin"]/parent::*/following-sibling::select[1]
     Click Element    //option[text()="Phone"]
     Click Save Button
+    Wait Until Page Contains Element    //span[contains(., " was created.")]
+    Wait Until Page Does Not Contain Element    //span[contains(., " was created.")]
     Go Back Click
     Log    "Creat a Case succeeded"
 
@@ -70,14 +75,18 @@ Update a Case
     Navi To Case App
     #Click My Cases
     Click Element    xpath=//span[text()="My Cases"]
-    Refresh MyCases
+    Sleep    5
+    #Refresh MyCases
     #Click Case
     Wait Until Page Contains Element    xpath=//div[@class="listContent"]/ul[1]/li[1]/div[1]
     Wait Exits and Click Element    xpath=//*[text()="${FirstName} ${LastName}"][1]
     Wait Until Page Does Not Contain    //div[@class="forceModalSpinner"]
     Click Edit Button
     Click Save Button
+    Wait Until Page Contains Element    //span[contains(., " was saved.")]
+    Wait Until Page Does Not Contain Element    //span[contains(., " was saved.")]
     Go Back Click
+    Sleep    3
     Go Back Click
     Log    "Update a Case succeeded"
 
@@ -100,7 +109,8 @@ Delete a Case
     Wait Exits and Click Element    xpath=//*[text()="${FirstName} ${LastName}"][1]
     Click Delete Button
     #Confirm Delete
-    Click Element    xpath=//button[@title="Delete" and @data-action="Delete"]
-    Wait Until Page Contains Element    xpath=//span[text()="You deleted the case."]
+    Wait Exits and Click Element    xpath=//button[@title="Delete"]
+    Wait Until Page Contains Element    //span[contains(., " deleted.")]
+    Wait Until Page Does Not Contain Element    //span[contains(., " deleted.")]
     Go Back Click
     Log    "Delete a Case succeeded"

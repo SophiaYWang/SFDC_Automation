@@ -14,7 +14,6 @@ Click Delete Button
     Wait Until Page Contains Element    xpath=//div[@id="actionBarItem_Delete"]/button
     Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
     Click Element    xpath=//div[@id="actionBarItem_Delete"]/button
-    Wait Until Page Contains Element    xpath=//button[@title="Delete" and @data-action="Delete"]
 
 Click Edit Button
     #Click [Edit]
@@ -41,6 +40,7 @@ Go Back Click
 Mobile Cases test environment initialization
     Go To Url    http://login.salesforce.com
     Wait Until Page Contains Element    //*[@id="username"]    timeout=600s
+    Sleep    5
     Clear Text    //*[@id="username"]
     Input Text    //*[@id="username"]    ${IOS_USERNAME}
     Wait Until Page Contains Element    //*[@id="password"]    timeout=3s
