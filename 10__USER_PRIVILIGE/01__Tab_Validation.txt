@@ -24,6 +24,13 @@ Chrome
     \    Close All Browsers
 
 *** Keywords ***
+Clean Up test environment
+    Close All Browsers
+
+Get Data From Excel
+    ${excel_path}=    Catenate    SEPARATOR=    ${CURDIR}    ${excel_file}
+    Open Excel    ${excel_path}
+
 Go To SDFC
     [Arguments]    ${SiteUrl}    ${Username}    ${Pswd}
     Open Browser    about:    browser=chrome
@@ -42,10 +49,3 @@ Tabs Validation
     \    ${tab_name}=    Fetch From Left    ${var}    :
     \    Run Keyword If    '${check}'=='Y'    Page Should Contain    ${tab_name}
     \    Run Keyword If    '${check}'=='N'    Page Should Not Contain    ${tab_name}
-
-Clean Up test environment
-    Close All Browsers
-
-Get Data From Excel
-    ${excel_path}=    Catenate    SEPARATOR=    ${CURDIR}    ${excel_file}
-    Open Excel    ${excel_path}
