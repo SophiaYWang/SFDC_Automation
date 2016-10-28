@@ -1,7 +1,8 @@
 *** Variables ***
-${excel_file}     \\TestDataV0.01.xls
+${excel_file}     \\TestDataV0.02.xls
 ${toogleNavi}     xpath=//*[@class="toggleNav desktop forceIconDeprecated forceHeaderButton"]
-${tab_xpath}      xpath=//*[@id="oneHeader"]/div[2]/div[1]/div[1]/a
+${tab_xpath}      xpath=//*[@id="oneHeader"]/div[@class="bBottom"]
+${new_page_prefix}    //div[@class="modal-body scrollable slds-modal__content slds-p-around--medium"]
 
 *** Keywords ***
 Wait And Click Element

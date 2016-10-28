@@ -8,7 +8,7 @@ Resource          Resource.txt
 *** Test Cases ***
 Chrome
     Get Data From Excel
-    ${Row_count}=    Get Row Count    Sheet1
+    ${Row_count}=    get row count    Sheet1
     : FOR    ${var}    IN RANGE    ${Row_count}
     \    Continue For Loop If    ${var}==0 # skip title row
     \    ${tabs_l}=    Read Cell Data By Coordinates    Sheet1    4    ${var}
