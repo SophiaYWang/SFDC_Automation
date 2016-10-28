@@ -30,7 +30,6 @@ Click New Button
 Click Save Button
     Wait Until Page Contains Element    xpath=//span[text()="Save"]
     Click Element    xpath=//span[text()="Save"]
-    Wait Until Page Contains Element    //div[@class="placeholder detail "]
     Wait Until Page Does Not Contain Element    //div[@class="placeholder detail "]
 
 Go Back Click

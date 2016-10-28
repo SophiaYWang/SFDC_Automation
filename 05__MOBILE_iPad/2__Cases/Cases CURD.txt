@@ -20,12 +20,12 @@ ${BUNDLEID}       com.pwc.REX
 ${APPTYPE}        web
 ${web.url}        http://login.salesforce.com
 ${BROWSER_NAME}    safari
-${TIME_OUT}       30S
+${TIME_OUT}       10S
 ${WAIT_STEP}      5s
 
 *** Test Cases ***
 Loop test
-    : FOR    ${i}    IN RANGE    0    5
+    : FOR    ${i}    IN RANGE    0    200
     \    ${passed}=    Run Keyword And Return Status    Create a Case
     \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
     \    ${passed}=    Run Keyword And Return Status    Update a Case

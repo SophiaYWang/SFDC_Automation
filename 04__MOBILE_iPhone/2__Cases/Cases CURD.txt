@@ -25,20 +25,21 @@ ${BUNDLEID}       com.pwc.REX
 ${APPTYPE}        web
 ${web.url}        http://login.salesforce.com
 ${BROWSER_NAME}    safari
-${TIME_OUT}       60S
+${TIME_OUT}       15S
 ${WAIT_STEP}      5s
 
 *** Test Cases ***
 Loop test
-    : FOR    ${i}    IN RANGE    0    50
-    \    ${passed}=    Run Keyword And Return Status    Create a Case
-    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
-    \    ${passed}=    Run Keyword And Return Status    Update a Case
-    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
+    : FOR    ${i}    IN RANGE    0    500
+    \    #    ${passed}=    Run Keyword And Return Status    Create a Case
+    \    #    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
+    \    #    ${passed}=    Run Keyword And Return Status    Update a Case
+    \    #    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
     \    ${passed}=    Run Keyword And Return Status    Retrieve a Case
+    \    Sleep    5s
     \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
-    \    ${passed}=    Run Keyword And Return Status    Delete a Case
-    \    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
+    \    #    ${passed}=    Run Keyword And Return Status    Delete a Case
+    \    #    Run Keyword If    ${passed}!=True    Mobile Cases test environment initialization
     \    Log    "Loop Iteration ${i} done!"
 
 Create
@@ -66,8 +67,8 @@ Create a Case
     Wait Exits and Click Element    xpath=//span[text()="Case Origin"]/parent::*/following-sibling::select[1]
     Click Element    //option[text()="Phone"]
     Click Save Button
-    Wait Until Page Contains Element    //span[contains(., " was created.")]
-    Wait Until Page Does Not Contain Element    //span[contains(., " was created.")]
+    Wait Until Page Contains Element    //*[contains(., "created.")]
+    Wait Until Page Does Not Contain Element    //*[contains(., "created.")]
     Go Back Click
     Log    "Creat a Case succeeded"
 
@@ -75,16 +76,16 @@ Update a Case
     Navi To Case App
     #Click My Cases
     Click Element    xpath=//span[text()="My Cases"]
-    Sleep    5
+    Sleep    8
     #Refresh MyCases
     #Click Case
-    Wait Until Page Contains Element    xpath=//div[@class="listContent"]/ul[1]/li[1]/div[1]
+    #Wait Until Page Contains Element    xpath=//div[@class="listContent"]/ul[1]/li[1]/div[1]
     Wait Exits and Click Element    xpath=//*[text()="${FirstName} ${LastName}"][1]
     Wait Until Page Does Not Contain    //div[@class="forceModalSpinner"]
     Click Edit Button
     Click Save Button
-    Wait Until Page Contains Element    //span[contains(., " was saved.")]
-    Wait Until Page Does Not Contain Element    //span[contains(., " was saved.")]
+    Wait Until Page Contains Element    //*[contains(., "saved.")]
+    Wait Until Page Does Not Contain Element    //*[contains(., "saved.")]
     Go Back Click
     Sleep    3
     Go Back Click
@@ -97,7 +98,7 @@ Retrieve a Case
     #Click Case
     Wait Until Page Contains Element    xpath=//div[@class="listContent"]/ul[1]/li[1]/div[1]
     #Check result
-    Wait Until Page Contains Element    xpath=//*[text()="${FirstName} ${LastName}"]
+    #Wait Until Page Contains Element    xpath=//*[text()="${FirstName} ${LastName}"]
     Wait Exits and Click Element    xpath=//*[@id="oneHeader"]/div/div[1]/a
     Log    "Retrieve a Case succeeded"
 
@@ -110,7 +111,7 @@ Delete a Case
     Click Delete Button
     #Confirm Delete
     Wait Exits and Click Element    xpath=//button[@title="Delete"]
-    Wait Until Page Contains Element    //span[contains(., " deleted.")]
-    Wait Until Page Does Not Contain Element    //span[contains(., " deleted.")]
+    Wait Until Page Contains Element    //*[contains(., "deleted.")]
+    Wait Until Page Does Not Contain Element    //*[contains(., "deleted.")]
     Go Back Click
     Log    "Delete a Case succeeded"

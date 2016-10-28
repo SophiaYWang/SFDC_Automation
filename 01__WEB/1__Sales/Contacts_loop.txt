@@ -10,11 +10,11 @@ ${FirstName}      Web
 ${LastName}       Automation
 ${PhoneNum}       123456789
 ${browser}        ff
-${speed}          2 seconds
+${speed}          0.8 seconds
 
 *** Test Cases ***
 Loop Test
-    : FOR    ${index}    IN RANGE    1    2
+    : FOR    ${index}    IN RANGE    1    500
     \    Run Keyword And Continue On Failure    Create a Contact
     \    Run Keyword And Continue On Failure    Update a Contact
     \    Run Keyword And Continue On Failure    Retrieve a Contact
