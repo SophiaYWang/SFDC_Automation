@@ -38,7 +38,7 @@ Appium server [download](https://bitbucket.org/appium/appium.app/downloads/)
  * Install [Wandoujia](https://www.wandoujia.com/) so that mobile device driver will be installed automatically when devices get connected.
 6. Parallel execution
  * Parallel execution only supports Android environment only currently.
- * Start a appium server thread for each execution thread. If appium servers were run within one host, set different appium bootstrapport, nodeport and chromedriver port among those parallel process. Like:
+ * Start a appium server thread for each execution thread. If appium servers were run within one host, set different appium bootstrapport, nodeport and chromedriver port among those parallel process. Like:<br />
     ```
     node node_modules\appium\bin\appium.js -p 4723 -bp 4733 --chromedriver-port 4743
     ```
