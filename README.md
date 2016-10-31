@@ -40,9 +40,12 @@ Appium server [download](https://bitbucket.org/appium/appium.app/downloads/)
  * Parallel execution only supports Android environment only currently.
  * Start a appium server thread for each execution thread. If appium servers were run within one host, set different appium bootstrapport, nodeport and chromedriver port among those parallel process. Like:<br />
     ```
-    node node_modules\appium\bin\appium.js -p 4723 -bp 4733 --chromedriver-port 4743<br />
-    node node_modules\appium\bin\appium.js -p 4724 -bp 4734 --chromedriver-port 4744<br />
-    node node_modules\appium\bin\appium.js -p 4725 -bp 4735 --chromedriver-port 4745<br />
+    node node_modules\appium\bin\appium.js -p 4723 -bp 4733 --chromedriver-port 4743
+    
+    node node_modules\appium\bin\appium.js -p 4724 -bp 4734 --chromedriver-port 4744
+    
+    node node_modules\appium\bin\appium.js -p 4725 -bp 4735 --chromedriver-port 4745
+    
     node node_modules\appium\bin\appium.js -p 4726 -bp 4736 --chromedriver-port 4746
     ```
  * Start a RIDE process for each execution thread. Connect to different appium server in your environment.
