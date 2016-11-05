@@ -85,7 +85,7 @@ Appium server [download](https://bitbucket.org/appium/appium.app/downloads/)
 
 ## SFDC Environment dependency
 
-1. Please email lanny.zhu@pwc.com to get real user_credential.txt before you run the cases.
+1. Please email lannyzhujin@hotmail.com to get real user_credential.txt before you run the cases.
 
 2. 4 Contacts under Android SDFC user: ${AN_USERNAME}<br />
   - Contact1: android phone1 //in (lastname) (firstname) format<br />
@@ -108,7 +108,7 @@ SFDC (Sales Force Dot Com) Automation 是一个专门为Salesforce.com自动化�
 
 ## SFDC 环境依赖
 
-1. 运行前请先发送邮件给lanny.zhu@pwc.com获取真实user_credential.txt账号文件。
+1. 运行前请先发送邮件给lannyzhujin@hotmail.com获取真实user_credential.txt账号文件。
 
 2. Android SDFC 账号${AN_USERNAME}下有4个用户: <br />
   - Contact1: android phone1 //in (lastname) (firstname) format<br />
