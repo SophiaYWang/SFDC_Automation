@@ -78,6 +78,19 @@ Go To SDFC
     #Wait Until Page Contains Element    xpath=//*[contains(text(), "Market Leaderboard")]    timeout=60s
     Sleep    40s
 
+Get Data From Excel
+    ${excel_path}=    Catenate    SEPARATOR=    ${CURDIR}    ${excel_file}
+    Open Excel    ${excel_path}
+
+Go To SDFC
+    [Arguments]    ${SiteUrl}    ${Username}    ${Pswd}
+    Open Browser    about:    browser=chrome
+    Go to    ${SiteUrl}
+    #Click Element    xpath=//*[@id="use_new_identity"]
+    Input Text    //*[@id="username"]    ${Username}
+    Input Password    //*[@id="password"]    ${Pswd}
+    Click Button    //*[@id="Login"]
+
 Navi To New Object Page
     [Arguments]    ${menu_l}
     Wait And Click Element    //span[text()="More"]    timeout=30s    #Expand tabs
@@ -91,15 +104,23 @@ Navi To New Object Page
     Wait Until Page Contains    Create    timeout=30s
 
 Page Should Contain Editable Fields
+<<<<<<< HEAD
     [Arguments]    ${fields_name}
     ${m_count}=    Get Count    ${new_page_prefix}//*[text()="${fields_name}"]/parent::*/parent::*/input    ${fields_name}
     Should Be True    ${m_count}==1
 
 Page Should Contain Mandatory Fields
+=======
+>>>>>>> 310f0e8c852343ff3e3e331b5bd84341e4995e54
     [Arguments]    ${fields_name}
     #${tmp}=    Get Text    ${new_page_prefix}//*[text()="${fields_name}"]//following-sibling::*
     #Should Be Equal    *    ${tmp}
     ${m_count}=    Get Count    ${new_page_prefix}//*[text()="${fields_name}"]//following-sibling::*    ${fields_name}
+    Should Be True    ${m_count}==1
+
+Page Should Contain Mandatory Fields
+    [Arguments]    ${fields_name}
+    ${m_count}=    Get Matching Xpath Count    xpath=//div[@class="modal-container slds-modal__container"]//*[text()="${fields_name}"]/parent::*/parent::*/*[@aria-required="true"]
     Should Be True    ${m_count}==1
 
 Page Should Contain Read Fields
